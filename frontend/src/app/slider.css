@@ -1,0 +1,15 @@
+/* trending products slider */ 
+.swiper-button-prev,
+.swiper-button-next {
+    position: absolute;
+    margin-top: 0;
+    z-index: 40;
+    cursor: pointer;
+    color: black;
+}
+
+.swiper-button-next
+{
+    top: -2em;
+    right: 0;
+}

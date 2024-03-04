@@ -7,6 +7,7 @@ import {
   Accordion,
   AccordionItem,
 } from "@nextui-org/react";
+import Link from "next/link";
 
 export default function ToggleManuBar() {
   const defaultContent =
@@ -24,7 +25,23 @@ export default function ToggleManuBar() {
                   aria-label="Accordion 1"
                   title="Accordion 1"
                 >
-                  {defaultContent}
+                  <ul>
+                    <li className="py-3 border-b border-gray-300">
+                      <Link href="/" className="ps-3">
+                        Home
+                      </Link>
+                    </li>
+                    <li className="py-3 border-b border-gray-300">
+                      <Link href="/products" className="ps-3">
+                        Products
+                      </Link>
+                    </li>
+                    <li className="py-3">
+                      <Link href="/offers" className="ps-3">
+                        Offers
+                      </Link>
+                    </li>
+                  </ul>
                 </AccordionItem>
                 <AccordionItem
                   key="2"
@@ -49,24 +66,24 @@ export default function ToggleManuBar() {
             <CardBody>
               <ul>
                 <li className="py-3 border-b border-gray-300">
-                  <a href="" className="">
+                  <Link href="/" className="">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li className="py-3 border-b border-gray-300">
-                  <a href="" className="">
+                  <Link href="/products" className="">
                     Products
-                  </a>
+                  </Link>
                 </li>
                 <li className="py-3 border-b border-gray-300">
-                  <a href="" className="">
-                    Services
-                  </a>
+                  <Link href="/offers" className="">
+                    Offers
+                  </Link>
                 </li>
                 <li className="py-3">
-                  <a href="" className="">
+                  <Link href="/contact" className="">
                     Contact
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </CardBody>

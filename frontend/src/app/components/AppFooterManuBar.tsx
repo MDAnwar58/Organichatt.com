@@ -10,7 +10,7 @@ import { MdOutlineAccountCircle } from "react-icons/md";
 export default function AppFooterManuBar() {
   const [isInvisible, setIsInvisible] = React.useState(false);
   return (
-    <nav className="lg:hidden bg-slate-50 sticky bottom-0 relative">
+    <nav className="lg:hidden bg-slate-50 sticky bottom-0 relative z-50">
       <div className="flex items-center text-center">
         <a href="" className="w-1/4 py-4 flex justify-center items-center">
           <div>

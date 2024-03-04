@@ -7,7 +7,6 @@ export const AppBarContext = () => {
   const appToggleManuBarHandle = () => {
     if (toggleManuBarStatus === false) {
       setToggleManuBatStatus(true);
-    //   alert(toggleManuBarStatus);
     }else{
         setToggleManuBatStatus(false)
     }

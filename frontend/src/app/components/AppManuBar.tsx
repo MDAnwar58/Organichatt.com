@@ -1,62 +1,35 @@
 import React from "react";
 import MegaManuDropdownBtn from "./MegaManuDropdownBtn";
+import Link from "next/link";
 
 export default function AppManuBar() {
   return (
-    <div className=" bg-green-300 px-10 lg:py-0 py-3 lg:block hidden">
+    <div className=" bg-green-300 px-10 lg:py-1 py-3 lg:block hidden opacity-90 shadow-md">
       <ul className="flex">
         <li>
           <MegaManuDropdownBtn />
         </li>
         <li className="py-2 px-3 ps-0">
-          <a href="" className="">
+          <Link href="/" className="">
             Home
-          </a>
+          </Link>
         </li>
         <li className="py-2 px-3">
-          <a href="" className="">
+          <Link href="/products" className="">
             Products
-          </a>
+          </Link>
         </li>
         <li className="py-2 px-3">
-          <a href="" className="">
-            Services
-          </a>
+          <Link href="/offers" className="">
+            Offers
+          </Link>
         </li>
         <li className="py-2 px-3">
-          <a href="" className="">
+          <Link href="/contact" className="">
             Contact
-          </a>
+          </Link>
         </li>
       </ul>
-      {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Home
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Shop
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            About
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Services
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Contact
-          </Link>
-        </NavbarItem>
-      </NavbarContent> */}
     </div>
   );
 }

@@ -17,6 +17,7 @@ import {
   Server,
   TagUser,
 } from "./Icons";
+import MegaManus from "./MegaManus";
 
 export default function MegaManuDropdownBtn() {
   const icons = {
@@ -31,7 +32,7 @@ export default function MegaManuDropdownBtn() {
     user: <TagUser className="text-danger" fill="currentColor" size={30} />,
   };
   return (
-    <Dropdown>
+    <Dropdown className=" relative">
       <DropdownTrigger>
         <Button
           variant="bordered"
@@ -48,36 +49,38 @@ export default function MegaManuDropdownBtn() {
       <DropdownMenu aria-label="Static Actions">
         <DropdownItem
           key="autoscaling"
-          description="ACME scales apps to meet user demand, automagically, based on load."
           startContent={icons.scale}
+          className="manus"
         >
           Autoscaling
+          <MegaManus />
         </DropdownItem>
         <DropdownItem
           key="usage_metrics"
-          description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
           startContent={icons.activity}
+          className="manus"
         >
           Usage Metrics
+          <MegaManus />
         </DropdownItem>
         <DropdownItem
           key="production_ready"
-          description="ACME runs on ACME, join us and others serving requests at web scale."
           startContent={icons.flash}
+          className="manus"
         >
           Production Ready
         </DropdownItem>
         <DropdownItem
           key="99_uptime"
-          description="Applications stay on the grid with high availability and high uptime guarantees."
           startContent={icons.server}
+          className="manus"
         >
           +99% Uptime
         </DropdownItem>
         <DropdownItem
           key="supreme_support"
-          description="Overcome any challenge with a supporting team ready to respond."
           startContent={icons.user}
+          className="manus"
         >
           +Supreme Support
         </DropdownItem>
