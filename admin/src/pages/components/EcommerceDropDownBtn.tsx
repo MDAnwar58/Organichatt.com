@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 
 export default function EcommerceDropDownBtn({
   ecommerceBtnDropdownHandle,
@@ -48,19 +49,19 @@ export default function EcommerceDropDownBtn({
         } py-2 space-y-2`}
       >
         <li>
-          <a
-            href="#"
+          <Link
+            to="/categories"
             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
           >
-            Products
-          </a>
+            Categories
+          </Link>
         </li>
         <li>
           <a
             href="#"
             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
           >
-            Billing
+            Products
           </a>
         </li>
         <li>

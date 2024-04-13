@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Layout from "./Layout";
+import Categories from "./pages/category/Categories";
 
 const routes = [
   {
@@ -16,6 +17,10 @@ const routes = [
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/categories",
+        element: <Categories />,
       },
     ],
   },
