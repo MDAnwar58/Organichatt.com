@@ -8,15 +8,22 @@ use App\Http\Requests\Backend\Weight\StoreRequest;
 use App\Http\Requests\Backend\Weight\UpdateRequest;
 use App\Models\Weight;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class WeightController extends Controller
 {
     // make some functions as like get, store, edit, update and delete
     // when go to this store and update functions then same process store column number
-    public function get(): JsonResponse
+    public function get(Request $request): JsonResponse
     {
+        $search = $request->search;
+        if (isset($search)) {
+            $weights = Weight::where('number', 'like', '%' . $search . '%')->latest()->get();
+        } else {
+            $weights = Weight::latest()->get();
+        }
         $data = [
-            'weights' => Weight::latest()->get(),
+            'weights' => $weights,
         ];
         return Response::Out("", "", $data, 200);
     }

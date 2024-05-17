@@ -1,76 +1,92 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Fragment } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import NavBar from "./pages/components/NavBar";
 import SideBar from "./pages/components/SideBar";
+import useAuthCheck from "./auth/AuthCheck";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PageOutlet from "./pages/components/PageOutlet";
 
 export default function Layout() {
-  const [userBtnDropdown, setUserBtnDropdown] = useState(false);
+  const { authCheck, auth, signOut } = useAuthCheck();
+  // const [userBtnDropdown, setUserBtnDropdown] = useState(false);
   const [ecommerceDropDownBtn, setEcommerceBtnDropdown] = useState(false);
+  const [galleryDropDownBtn, setGalleryBtnDropdown] = useState(false);
   const [sideBar, setSideBar] = useState(true);
   const [mobileSreenSideBar, setMobileSreenSideBar] = useState(false);
   const dropdownRef = useRef(null);
+  const { pathname } = useLocation();
 
-  const userBtnDropdownHandle = () => {
-    setUserBtnDropdown(!userBtnDropdown);
-  };
+  // const userBtnDropdownHandle = () => {
+  //   setUserBtnDropdown(!userBtnDropdown);
+  // };
 
   const ecommerceBtnDropdownHandle = () => {
     setEcommerceBtnDropdown(!ecommerceDropDownBtn);
   };
+  const galleryBtnDropdownHandle = () => {
+    setGalleryBtnDropdown(!galleryDropDownBtn);
+  };
 
   const sideBarHandle = () => {
     setSideBar(!sideBar);
+    localStorage.setItem("sidebar", !sideBar);
   };
 
   const mobileSreenSideBarHandle = () => {
     setMobileSreenSideBar(!mobileSreenSideBar);
   };
 
-  const handleClickOutside = (event) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target) &&
-      event.pointerType !== "mouse"
-    ) {
-      setUserBtnDropdown(false);
-    }
-  };
+  // const handleClickOutside = (event) => {
+  //   if (
+  //     dropdownRef.current &&
+  //     !dropdownRef.current.contains(event.target) &&
+  //     event.pointerType !== "mouse"
+  //   ) {
+  //     setUserBtnDropdown(false);
+  //   }
+  // };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    authCheck();
+    localStorage.setItem("sidebar", true);
+    // document.addEventListener("moused  own", handleClickOutside);
+    // return () => {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // };
   }, []);
+
   return (
     <Fragment>
-      <NavBar
-        userBtnDropdownHandle={userBtnDropdownHandle}
-        userBtnDropdown={userBtnDropdown}
-        dropdownRef={dropdownRef}
-        sideBarHandle={sideBarHandle}
-        mobileSreenSideBarHandle={mobileSreenSideBarHandle}
-      />
-      {sideBar === true && (
-        <SideBar
-          ecommerceBtnDropdownHandle={ecommerceBtnDropdownHandle}
-          ecommerceDropDownBtn={ecommerceDropDownBtn}
-          mobileSreenSideBar={mobileSreenSideBar}
+      <div className="bg-white dark:bg-gray-900 min-h-screen">
+        <NavBar
+          sideBarHandle={sideBarHandle}
+          mobileSreenSideBarHandle={mobileSreenSideBarHandle}
+          user={auth.user}
+          signOut={signOut}
         />
-      )}
-      <div className={`p-4 ${sideBar === true && "sm:ml-64"}`}>
-        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-          <Outlet />
+        {sideBar === true && (
+          <SideBar
+            ecommerceBtnDropdownHandle={ecommerceBtnDropdownHandle}
+            ecommerceDropDownBtn={ecommerceDropDownBtn}
+            galleryBtnDropdownHandle={galleryBtnDropdownHandle}
+            galleryDropDownBtn={galleryDropDownBtn}
+            mobileSreenSideBar={mobileSreenSideBar}
+          />
+        )}
+        <div className={`p-4 ${sideBar === true && "md:ml-64"}`}>
+          <PageOutlet sideBar={sideBar} />
         </div>
+        {mobileSreenSideBar === true && (
+          <div
+            onClick={mobileSreenSideBarHandle}
+            drawer-backdrop=""
+            className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-[20]"
+          ></div>
+        )}
       </div>
-      {mobileSreenSideBar === true && (
-        <div
-          onClick={mobileSreenSideBarHandle}
-          drawer-backdrop=""
-          className="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30"
-        ></div>
-      )}
+      <ToastContainer />
     </Fragment>
   );
 }

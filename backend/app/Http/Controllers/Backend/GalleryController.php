@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Gallery\StoreRequest;
 use App\Http\Requests\Backend\Gallery\UpdateRequest;
 use App\Models\Gallery;
+use App\Models\GalleryCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -14,56 +15,84 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
-    function get(): JsonResponse
+    function get(Request $request)
     {
+        $search = $request->search;
+        if (isset($request->gallery_category_id) && isset($search)) {
+            $gallery_category = GalleryCategory::find($request->gallery_category_id);
+            $galleries = Gallery::where('image_name', 'like', '%' . $search . '%')
+                ->where('gallery_category_id', $gallery_category->id)
+                ->latest()
+                ->get();
+        } elseif (isset($search)) {
+            $galleries = Gallery::where('image_name', 'like', '%' . $search . '%')->latest()->get();
+        } elseif (isset($request->gallery_category_id)) {
+            $gallery_category = GalleryCategory::find($request->gallery_category_id);
+            $galleries = Gallery::where('gallery_category_id', $gallery_category->id)->latest()->get();
+        } else {
+            $galleries = Gallery::latest()->get();
+        }
         $data = [
-            'galleries' => Gallery::latest()->get(),
+            'galleries' => $galleries,
         ];
         return Response::Out("", "", $data, 200);
     }
-
-    function getRestore()
+    function store(StoreRequest $request)
     {
-        $data = [
-            'galleries' => Gallery::onlyTrashed()->get(),
-        ];
-        return Response::Out("", "", $data, 200);
-    }
-    function store(StoreRequest $request): JsonResponse
-    {
-        $extention = Gallery::fileExtention($request->hasFile('url'), $request->file('url'));
-        $size = Gallery::fileSize($request->hasFile('url'), $request->file('url'));
-        $file = Gallery::fileStore($request->hasFile('url'), $request->file('url'), $request->name, "");
-
+        $extention = Gallery::fileExtention($request->hasFile('image'), $request->file('image'));
+        $size = Gallery::fileSize($request->hasFile('image'), $request->file('image'));
+        $file = Gallery::fileStore($request->hasFile('image'), $request->file('image'), $request->image_name, "");
+        $file_type = Gallery::fileType($request->hasFile('image'), $request->file('image'));
         $gallery = new Gallery();
-        $gallery->image_name = $request->name;
+        $gallery->gallery_category_id = $request->gallery_category_id;
+        $gallery->image_name = $request->image_name;
         $gallery->image_extention = $extention != null ? $extention : null;
         $gallery->image_size = $size != null ? $size : null;
         $gallery->url = $file != null ? $file : null;
-        $gallery->type = $request->type;
+        $gallery->file_type = $file_type != null ? $file_type : null;
         $gallery->save();
 
         return Response::Out("success", "Gallery's File Created!", "", 200);
     }
-    function edit($id): JsonResponse
+    function storeGalleryWithGalleryCategory(Request $request, $gallery_category_name)
+    {
+        $request->validate([
+            'image_name' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:20480',
+        ]);
+        $galleryCategory = GalleryCategory::where('name', $gallery_category_name)->first();
+        if ($galleryCategory) {
+            $extention = Gallery::fileExtention($request->hasFile('image'), $request->file('image'));
+            $size = Gallery::fileSize($request->hasFile('image'), $request->file('image'));
+            $file = Gallery::fileStore($request->hasFile('image'), $request->file('image'), $request->image_name, "");
+            $file_type = Gallery::fileType($request->hasFile('image'), $request->file('image'));
+            $gallery = new Gallery();
+            $gallery->gallery_category_id = $galleryCategory->id;
+            $gallery->image_name = $request->image_name;
+            $gallery->image_extention = $extention != null ? $extention : null;
+            $gallery->image_size = $size != null ? $size : null;
+            $gallery->url = $file != null ? $file : null;
+            $gallery->file_type = $file_type != null ? $file_type : null;
+            $gallery->save();
+
+            return Response::Out("success", "Gallery's File Created!", "", 200);
+        } else {
+            return Response::Out("fail", "Something went wrong!", "", 500);
+        }
+    }
+    function infoOrEdit($id): JsonResponse
     {
         $gallery = Gallery::find($id);
         return Response::Out("", "", $gallery, 200);
     }
-    function update(UpdateRequest $request, $id): JsonResponse
+    function update(UpdateRequest $request, $id)
     {
         $gallery = Gallery::find($id);
-
-        $extention = Gallery::fileExtention($request->hasFile('url'), $request->file('url'));
-        $size = Gallery::fileSize($request->hasFile('url'), $request->file('url'));
-        $file = Gallery::fileStore($request->hasFile('url'), $request->file('url'), $request->name, $gallery->url);
-
-        $gallery->image_name = $request->name;
-        $gallery->image_extention = $extention != null ? $extention : null;
-        $gallery->image_size = $size != null ? $size : null;
-        $gallery->url = $file != null ? $file : null;
-        $gallery->type = $request->type;
-        $gallery->save();
+        $gallery->gallery_category_id = $request->gallery_category_id;
+        $gallery->image_name = $request->image_name;
+        $file = Gallery::fileUpdate($request->image_name, $gallery->url);
+        $gallery->url = $file;
+        $gallery->update();
 
         return Response::Out("success", "Gallery's File Updated!", "", 200);
     }
@@ -74,16 +103,53 @@ class GalleryController extends Controller
 
         return Response::Out("success", "Gallery's File Deleted!", "", 200);
     }
+    function multipleDestroy(Request $request)
+    {
+        // multiple destroy press
+        $ids = $request->ids;
+        Gallery::destroy($ids);
+
+        return Response::Out("success", "Multiple Gallery's Images Deleted!", "", 200);
+    }
+
+    function getRestore(?Request $request)
+    {
+        $galleryCategoryId = $request->gallery_category_id;
+        $search = $request->search;
+        if (isset($search) && isset($galleryCategoryId)) {
+            $galleries = Gallery::onlyTrashed()
+                ->where('image_name', 'like', '%' . $search . '%')
+                ->where('gallery_category_id', $galleryCategoryId)
+                ->latest()
+                ->get();
+        } elseif (isset($search)) {
+            $galleries = Gallery::onlyTrashed()
+                ->where('image_name', 'like', '%' . $search . '%')
+                ->latest()
+                ->get();
+        } elseif (isset($galleryCategoryId)) {
+            $galleries = Gallery::onlyTrashed()
+                ->where('gallery_category_id', $galleryCategoryId)
+                ->latest()
+                ->get();
+        } else {
+            $galleries = Gallery::onlyTrashed()->latest()->get();
+        }
+        $data = [
+            'galleries' => $galleries,
+        ];
+        return Response::Out("", "", $data, 200);
+    }
     function restore($id): JsonResponse
     {
-        $gallery = Gallery::withTrashed()->find($id);
+        $gallery = Gallery::onlyTrashed()->find($id);
         $gallery->restore();
 
         return Response::Out("success", "Gallery's File Restored!", "", 200);
     }
     function forseDestroy($id): JsonResponse
     {
-        $gallery = Gallery::findOrFail(intval($id));
+        $gallery = Gallery::onlyTrashed()->find($id);
         $fileName = basename($gallery->url);
         $file_path = public_path() . '/upload/images/galleries/' . $fileName;
 
@@ -94,19 +160,11 @@ class GalleryController extends Controller
 
         return Response::Out("success", "Gallery's File Permanently Deleted!", "", 200);
     }
-    function multipleDestroy(Request $request)
-    {
-        // multiple destroy press
-        $ids = $request->ids;
-        Gallery::destroy($ids);
-
-        return Response::Out("success", "Multiple Gallery's File Deleted!", "", 200);
-    }
     function multipleRestore(Request $request)
     {
         $ids = $request->ids;
         // multiple restore process
-        Gallery::withTrashed()->restore($ids);
+        Gallery::onlyTrashed()->whereIn('id', $ids)->restore();
 
         return Response::Out("success", "Multiple Gallery's File Restored!", "", 200);
     }
@@ -114,7 +172,7 @@ class GalleryController extends Controller
     {
         $ids = $request->ids;
         // multiple gallery forse destroy with image remove in public path process
-        $galleries = Gallery::whereIn('id', $ids)->get();
+        $galleries = Gallery::onlyTrashed()->whereIn('id', $ids)->get();
         foreach ($galleries as $gallery) {
             $fileName = basename($gallery->url);
             $file_path = public_path() . '/upload/images/galleries/' . $fileName;
@@ -127,6 +185,11 @@ class GalleryController extends Controller
         // Gallery::withTrashed()->forceDelete($ids);
 
         return Response::Out("success", "Multiple Gallery's File Permanently Deleted!", "", 200);
+    }
+    function imageDownload($id)
+    {
+        $gallery = Gallery::find($id);
+        return Gallery::Download($gallery->url);
     }
     // function multipleForseDestroyInRestore(Request $request)
     // {

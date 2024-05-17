@@ -1,5 +1,5 @@
 <footer class="bg-green-300 dark:bg-gray-900 md:block hidden">
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+    <div class="xl:px-20 lg:px-[5.5rem] 2md:px-[5.5rem] md:px-[3rem] sm:px-[1.5rem] 4xs:px-7 px-5 p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
             <div class="grid grid-cols-2 gap-8 sm:gap-10 sm:grid-cols-4">
                 <div>

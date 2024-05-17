@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Weight extends Model
 {
     use HasFactory;
+    protected $table = 'weights';
     protected $fillable = [
         'number',
     ];

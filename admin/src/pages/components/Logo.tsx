@@ -2,20 +2,20 @@ import React from "react";
 
 export default function Logo({ sideBarHandle }: any) {
   return (
-    <div className="flex items-center   ">
-      <a href="https://flowbite.com" className="flex ms-2 md:me-24">
+    <div className="flex items-center">
+      <a href="https://flowbite.com" className="flex ms-2 sm:me-[4rem]">
         <img
           src="https://flowbite.com/docs/images/logo.svg"
           className="h-8 me-3"
           alt="FlowBite Logo"
         />
         <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-          Flowbite
+          Admin Panel
         </span>
       </a>
       <button
         type="button"
-        className=" sm:inline-flex hidden items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className=" md:inline-flex hidden items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         onClick={sideBarHandle}
       >
         <span className="sr-only">Open sidebar</span>

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SizeNumber extends Model
 {
     use HasFactory;
+    protected $table = 'size_numbers';
     protected $fillable = [
         'name',
     ];

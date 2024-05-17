@@ -1,16 +1,27 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import EcommerceDropDownBtn from "./EcommerceDropDownBtn";
+import GalleryDropDownBtn from "./GalleryDropDownBtn";
 export default function SideBar({
   ecommerceBtnDropdownHandle,
   ecommerceDropDownBtn,
+  galleryBtnDropdownHandle,
+  galleryDropDownBtn,
   mobileSreenSideBar,
 }: any) {
+  const { pathname } = useLocation();
+  const { id } = useParams();
+
+  const NavLinkActive = "bg-gray-100 dark:bg-gray-700";
+  const NavLink = " hover:bg-gray-100 dark:hover:bg-gray-700";
+  const SvgActive = "text-gray-900 dark:text-white";
+  const Svg = "group-hover:text-gray-900 dark:group-hover:text-white";
+
   return (
     <Fragment>
       <aside
         id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 ${
+        className={`fixed top-0 left-0 z-[25] w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700 ${
           mobileSreenSideBar === false ? "-translate-x-full" : "transform-none"
         }`}
         aria-label="Sidebar"
@@ -19,12 +30,16 @@ export default function SideBar({
         <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
             <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              <Link
+                to="/dashboard"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white ${
+                  pathname === "/dashboard" ? NavLinkActive : NavLink
+                } group`}
               >
                 <svg
-                  className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 ${
+                    pathname === "/dashboard" ? SvgActive : Svg
+                  }`}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -34,13 +49,47 @@ export default function SideBar({
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
                 <span className="ms-3">Dashboard</span>
-              </a>
+              </Link>
             </li>
             <li>
               <EcommerceDropDownBtn
                 ecommerceBtnDropdownHandle={ecommerceBtnDropdownHandle}
                 ecommerceDropDownBtn={ecommerceDropDownBtn}
+                pathname={pathname}
+                NavLinkActive={NavLinkActive}
+                NavLink={NavLink}
+                SvgActive={SvgActive}
+                Svg={Svg}
+                id={id}
               />
+            </li>
+            <li>
+              <GalleryDropDownBtn
+                galleryBtnDropdownHandle={galleryBtnDropdownHandle}
+                galleryDropDownBtn={galleryDropDownBtn}
+                pathname={pathname}
+                NavLinkActive={NavLinkActive}
+                NavLink={NavLink}
+                SvgActive={SvgActive}
+                Svg={Svg}
+              />
+            </li>
+            <li>
+              <a
+                href="#"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                {/* <svg
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 18 18"
+                >
+                  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                </svg> */}
+                <span className="flex-1 ms-3 whitespace-nowrap">Kanban</span>
+              </a>
             </li>
             <li>
               <a
@@ -51,11 +100,32 @@ export default function SideBar({
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
+                  width={24}
+                  height={24}
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M13 10a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2H14a1 1 0 0 1-1-1Z"
+                    clipRule="evenodd"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12c0 .556-.227 1.06-.593 1.422A.999.999 0 0 1 20.5 20H4a2.002 2.002 0 0 1-2-2V6Zm6.892 12 3.833-5.356-3.99-4.322a1 1 0 0 0-1.549.097L4 12.879V6h16v9.95l-3.257-3.619a1 1 0 0 0-1.557.088L11.2 18H8.892Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+
+                {/* <svg
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
                   viewBox="0 0 18 18"
                 >
                   <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
-                </svg>
+                </svg> */}
                 <span className="flex-1 ms-3 whitespace-nowrap">Kanban</span>
                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                   Pro

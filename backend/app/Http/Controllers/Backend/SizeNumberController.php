@@ -8,13 +8,20 @@ use App\Http\Requests\Backend\SizeNumber\StoreRequest;
 use App\Http\Requests\Backend\SizeNumber\UpdateRequest;
 use App\Models\SizeNumber;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class SizeNumberController extends Controller
 {
-    public function get(): JsonResponse
+    public function get(Request $request): JsonResponse
     {
+        $search = $request->search;
+        if (isset($search)) {
+            $size_numbers = SizeNumber::where('name', 'like', '%' . $search . '%')->latest()->get();
+        } else {
+            $size_numbers = SizeNumber::latest()->get();
+        }
         $data = [
-            'sizes' => SizeNumber::latest()->get(),
+            'size_numbers' => $size_numbers,
         ];
         return Response::Out("", "", $data, 200);
     }

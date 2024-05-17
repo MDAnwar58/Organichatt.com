@@ -10,9 +10,9 @@
                 @yield('title') -
             @endif Organichatt
         </title>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel='stylesheet'
             href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-straight/css/uicons-bold-straight.css'>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @yield('links')
         <link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">
     </head>
@@ -34,6 +34,12 @@
 
 
         <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+        <script>
+            function getUrl() {
+                const pathname = window.location.pathname;
+                sessionStorage.setItem("sign_out_url", pathname);
+            }
+        </script>
         @yield('scripts')
     </body>
 

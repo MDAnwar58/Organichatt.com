@@ -8,7 +8,7 @@
                 d="M1 1h15M1 7h15M1 13h15" />
         </svg>
     </button>
-    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+    <a href="{{ route('home') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
         <img src="{{ asset('assets/images/organic-logo.png') }}" class="h-10 w-24" alt="Flowbite Logo" />
     </a>
 </div>

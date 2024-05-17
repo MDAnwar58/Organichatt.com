@@ -6,12 +6,17 @@ use App\Helper\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Product\StoreRequest;
 use App\Models\Product;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function index(): View
+    {
+        return view('admin.product.index');
+    }
     // make some functions as like get, store, status, edit, update, delete and multipleDestroy functions
     public function get(): JsonResponse
     {

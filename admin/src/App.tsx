@@ -1,9 +1,9 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import React, { useState } from "react";
+import reactLogo from "./assets/images/react.svg";
 import viteLogo from "/vite.svg";
 import { Link } from "react-router-dom";
 
-function App() {
+export default function App() {
   const [count, setCount] = useState(0);
 
   return (
@@ -25,7 +25,7 @@ function App() {
           count is {count}
         </button>
         <br />
-        <Link to="/dashboard" className=" underline text-green-300">
+        <Link to="/admin/dashboard" className=" underline text-green-300">
           Dashboard
         </Link>
         <p className=" mt-3">
@@ -38,5 +38,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('pages.products.products');
+        $id = $request->header('id');
+        $user = User::find($id);
+        return view('pages.products.products', compact('user'));
     }
     public function show($slug): View
     {

@@ -14,10 +14,19 @@ class ColorController extends Controller
 {
     // make some functions as like get, store, edit, update and delete
     // store color as like name and color_code and update same process
-    public function get(): JsonResponse
+    public function get(Request $request): JsonResponse
     {
+        $search = $request->search;
+        if (isset($search)) {
+            $colors = Color::where('name', 'like', '%' . $search . '%')
+                ->orWhere('color_code', 'like', '%' . $search . '%')
+                ->latest()
+                ->get();
+        } else {
+            $colors = Color::latest()->get();
+        }
         $data = [
-            'colors' => Color::latest()->get(),
+            'colors' => $colors,
         ];
         return Response::Out("", "", $data, 200);
     }

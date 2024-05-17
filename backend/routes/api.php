@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgetPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SignInController;
+use App\Http\Controllers\Auth\SignOutController;
 use App\Http\Controllers\Auth\SignUpController;
 use App\Http\Controllers\Auth\TwoFactorVerifyController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ColorController;
+use App\Http\Controllers\Backend\GalleryCategoryController;
 use App\Http\Controllers\Backend\GalleryController;
 use App\Http\Controllers\Backend\OfferController;
 use App\Http\Controllers\Backend\ProductController;
@@ -23,9 +26,12 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// auth api routes
+Route::post('/auth-check', [AuthController::class, 'authCheck']);
+
+// auth api routes for user
 Route::post('/sign-up', [SignUpController::class, 'signUp']);
 Route::post('/sign-in', [SignInController::class, 'signIn']);
+Route::get('/sign-out', [SignOutController::class, 'signOut']);
 Route::post('/forget-password', [ForgetPasswordController::class, 'forgotPassword']);
 Route::post('/email-otp-verify-for-forget-password', [ForgetPasswordController::class, 'emailOTPVerifyForgotPassword']);
 Route::post('/phone-verify-for-forget-password', [ForgetPasswordController::class, 'phoneVerifyForgottenPassword']);
@@ -33,25 +39,39 @@ Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']
 Route::post('/email-two-fa-verify', [TwoFactorVerifyController::class, 'twoFactorVerify']);
 Route::post('/phone-two-fa-verify', [TwoFactorVerifyController::class, 'twoFactorVerify']);
 
+// admin authentication routes
+Route::post('/admin-sign-in', [SignInController::class, 'adminSignIn']);
+
+
 
 // backend routes
+// * gallery category routes
+Route::get('/gallery-categories-get', [GalleryCategoryController::class, 'galleryGet']);
+Route::post('/gallery-category-store', [GalleryCategoryController::class, 'store']);
+Route::get('/gallery-category-edit/{id}', [GalleryCategoryController::class, 'edit']);
+Route::post('/gallery-category-update/{id}', [GalleryCategoryController::class, 'update']);
+Route::get('/gallery-category-delete/{id}', [GalleryCategoryController::class, 'destroy']);
+
 // * gallery routes
 Route::get('/galleries-get', [GalleryController::class, 'get']);
-Route::get('/galleries-get-restore', [GalleryController::class, 'getRestore']);
 Route::post('/gallery-store', [GalleryController::class, 'store']);
-Route::get('/gallery-edit/{id}', [GalleryController::class, 'edit']);
+Route::post('/gallery-store/{gallery_category_name}', [GalleryController::class, 'storeGalleryWithGalleryCategory']);
+Route::get('/gallery-info-or-edit/{id}', [GalleryController::class, 'infoOrEdit']);
 Route::post('/gallery-update/{id}', [GalleryController::class, 'update']);
 Route::get('/gallery-delete/{id}', [GalleryController::class, 'destroy']);
+Route::post('/gallery-multiple-delete', [GalleryController::class, 'multipleDestroy']);
+Route::get('/galleries-get-restore', [GalleryController::class, 'getRestore']);
 Route::get('/gallery-restore/{id}', [GalleryController::class, 'restore']);
 Route::get('/gallery-permanently-delete/{id}', [GalleryController::class, 'forseDestroy']);
-Route::get('/gallery-multiple-delete', [GalleryController::class, 'multipleDestroy']);
-Route::get('/gallery-multiple-restore', [GalleryController::class, 'multipleRestore']);
-Route::get('/gallery-multiple-permanently-delete', [GalleryController::class, 'multipleForseDestroy']);
+Route::post('/gallery-multiple-restore', [GalleryController::class, 'multipleRestore']);
+Route::post('/gallery-multiple-permanently-delete', [GalleryController::class, 'multipleForseDestroy']);
+Route::get('/gallery-image-download/{id}', [GalleryController::class, 'imageDownload']);
 // Route::get('/gallery-multiple-permanently-delete-in-restore', [GalleryController::class, 'multipleForseDestroyInRestore']);
 
 // * brands routes
 Route::get('/brands-get', [BrandController::class, 'get']);
 Route::post('/brand-store', [BrandController::class, 'store']);
+Route::get('/brand-status/{id}', [BrandController::class, 'status']);
 Route::get('/brand-edit/{id}', [BrandController::class, 'edit']);
 Route::post('/brand-update/{id}', [BrandController::class, 'update']);
 Route::get('/brand-delete/{id}', [BrandController::class, 'destroy']);

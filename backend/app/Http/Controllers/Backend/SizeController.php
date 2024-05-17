@@ -12,10 +12,16 @@ use Illuminate\Http\Request;
 
 class SizeController extends Controller
 {
-    public function get(): JsonResponse
+    public function get(Request $request): JsonResponse
     {
+        $search = $request->search;
+        if (isset($search)) {
+            $sizes = Size::where('name', 'like', '%' . $search . '%')->latest()->get();
+        } else {
+            $sizes = Size::latest()->get();
+        }
         $data = [
-            'sizes' => Size::latest()->get(),
+            'sizes' => $sizes,
         ];
         return Response::Out("", "", $data, 200);
     }

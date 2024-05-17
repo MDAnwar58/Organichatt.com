@@ -6,25 +6,30 @@ use App\Helper\Response;
 use App\Http\Controllers\Controller;
 use App\Mail\OTPMail;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class ForgetPasswordController extends Controller
 {
-    function forgotPassword(Request $request)
+    public function forgetPasswordPage(): View
     {
-        if ($request->email != null) {
-            $user = User::where('email', $request->email)->first();
-            if ($user) {
-                $otp = rand(10000, 99999);
+        return view('auth.forget-password');
+    }
+    function forgotPasswordSend(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|exists:users,email'
+        ]);
 
-                Mail::to($user->email)->send(new OTPMail($user, $otp));
+        $user = User::where('email', $request->email)->first();
+        $otp = rand(10000, 99999);
 
-                return Response::Out("success", "OTP Send Your Email", "", 200);
-            }
-        } else {
-            return false;
-        }
+        Mail::to($user->email)->send(new OTPMail($user, $otp));
+        $data = [
+            'email' => $user->email
+        ];
+        return Response::Out("success", "Please Check Your Email - ", $data, 200);
     }
     function emailOTPVerifyForgotPassword(Request $request)
     {

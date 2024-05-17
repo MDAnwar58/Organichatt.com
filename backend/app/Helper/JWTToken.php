@@ -6,15 +6,15 @@ use Firebase\JWT\Key;
 
 class JWTToken
 {
-    static public function createToken($email, $userId)
+    static public function createToken($user_email, $user_id, $expriy_days)
     {
         $key = env('JWT_KEY');
         $payload = [
-            'iss' => 'apple_shop-token',
+            'iss' => 'organichatt',
             'iat' => time(),
-            'exp' => time() + 60 * 60,
-            'userEmail' => $email,
-            'userId' => $userId,
+            'exp' => time() + 60 * 60 * 24 * $expriy_days,
+            'userEmail' => $user_email,
+            'userId' => $user_id,
         ];
         return JWT::encode($payload, $key, 'HS256');
     }

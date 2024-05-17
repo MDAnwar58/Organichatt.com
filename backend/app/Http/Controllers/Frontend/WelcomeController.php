@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
 {
-    public function welcome()
+    public function welcome(Request $request)
     {
-        return view('welcome');
+        $id = $request->header('id');
+        $user = User::find($id);
+        return view('welcome', compact('user'));
     }
 }

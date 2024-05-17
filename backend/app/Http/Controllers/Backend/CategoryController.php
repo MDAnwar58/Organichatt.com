@@ -8,13 +8,43 @@ use App\Http\Requests\Backend\Category\StoreRequest;
 use App\Http\Requests\Backend\Category\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function get(): JsonResponse
+    public function index()
     {
+        return view('admin.category.index');
+    }
+    public function get(Request $request): JsonResponse
+    {
+        $search = $request->search;
+        $status = $request->status;
+        if (isset($search) && isset($status)) {
+            if ($status === "1") {
+                $categories = Category::where('name', 'like', '%' . $search . '%')
+                    ->where('status', 'active')
+                    ->latest()
+                    ->get();
+            } else {
+                $categories = Category::where('name', 'like', '%' . $search . '%')
+                    ->where('status', 'inactive')
+                    ->latest()
+                    ->get();
+            }
+        } elseif (isset($search)) {
+            $categories = Category::where('name', 'like', '%' . $search . '%')->latest()->get();
+        } elseif (isset($status)) {
+            if ($status === "1") {
+                $categories = Category::where('status', 'active')->latest()->get();
+            } elseif ($status === "2") {
+                $categories = Category::where('status', 'inactive')->latest()->get();
+            }
+        } else {
+            $categories = Category::latest()->get();
+        }
         $data = [
-            'categories' => Category::latest()->get(),
+            'categories' => $categories,
         ];
         return Response::Out("", "", $data, 200);
     }
@@ -32,10 +62,10 @@ class CategoryController extends Controller
     public function status($id): JsonResponse
     {
         $category = Category::find($id);
-        $category->status = $category->status == 'active' ? 'inactive' : 'active';
+        $category->status = $category->status === 'active' ? 'inactive' : 'active';
         $category->update();
 
-        $status = $category->status == 'active' ? 'Active' : 'Inactive';
+        $status = $category->status == 'active' ? 'Active' : 'InActive';
         return Response::Out("success", "Category Status $status!", "", 200);
     }
     public function edit($id): JsonResponse

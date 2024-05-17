@@ -7,14 +7,84 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Subcategory\StoreRequest;
 use App\Http\Requests\Backend\Subcategory\UpdateRequest;
 use App\Models\SubCategory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
-    public function get(): JsonResponse
+    public function index(): View
     {
+        return view('admin.sub-category.index');
+    }
+    public function get(Request $request)
+    {
+        $search = $request->search;
+        $status = $request->status;
+        $sort_by_dir = $request->sort_by_dir;
+        $sort_by = $request->sort_by;
+        if (isset($search) && isset($status) && isset($sort_by_dir) && isset($sort_by)) {
+            if ($status === "1") {
+                $subCategories = SubCategory::where('name', 'like', '%' . $search . '%')
+                    ->where('status', 'active')
+                    ->orderBy($sort_by_dir, $sort_by)
+                    ->get();
+            } else {
+                $subCategories = SubCategory::where('name', 'like', '%' . $search . '%')
+                    ->where('status', 'inactive')
+                    ->orderBy($sort_by_dir, $sort_by)
+                    ->get();
+            }
+        }
+        if (isset($search) && isset($status)) {
+            if ($status === "1") {
+                $subCategories = SubCategory::where('name', 'like', '%' . $search . '%')
+                    ->where('status', 'active')
+                    ->orderBy('created_at', $sort_by)
+                    ->get();
+            } else {
+                $subCategories = SubCategory::where('name', 'like', '%' . $search . '%')
+                    ->where('status', 'inactive')
+                    ->orderBy('created_at', $sort_by)
+                    ->get();
+            }
+        } elseif (isset($sort_by_dir) && isset($sort_by) && isset($status)) {
+            if ($status === "1") {
+                $subCategories = SubCategory::where('status', 'active')
+                    ->orderBy($sort_by_dir, $sort_by)
+                    ->get();
+            } elseif ($status === "2") {
+                $subCategories = SubCategory::where('status', 'inactive')
+                    ->orderBy($sort_by_dir, $sort_by)
+                    ->get();
+            }
+        } elseif (isset($sort_by_dir) && isset($sort_by) && isset($search)) {
+            $subCategories = SubCategory::where('name', 'like', '%' . $search . '%')
+                ->orderBy($sort_by_dir, $sort_by)
+                ->get();
+        } elseif (isset($search)) {
+            $subCategories = SubCategory::where('name', 'like', '%' . $search . '%')
+                ->orderBy('created_at', $sort_by)
+                ->get();
+        } elseif (isset($status)) {
+            if ($status === "1") {
+                $subCategories = SubCategory::where('status', 'active')
+                    ->orderBy('created_at', $sort_by)
+                    ->get();
+            } elseif ($status === "2") {
+                $subCategories = SubCategory::where('status', 'inactive')
+                    ->orderBy('created_at', $sort_by)
+                    ->get();
+            }
+        } elseif (isset($sort_by_dir) && isset($sort_by)) {
+            $subCategories = SubCategory::orderBy($sort_by_dir, $sort_by)
+                ->get();
+        } else {
+            $subCategories = SubCategory::orderBy('created_at', $sort_by)
+                ->get();
+        }
         $data = [
-            'sub_categories' => SubCategory::latest()->get(),
+            'sub_categories' => $subCategories,
         ];
         return Response::Out("", "", $data, 200);
     }
@@ -35,7 +105,7 @@ class SubCategoryController extends Controller
         $subCategory->status = $subCategory->status == 'active' ? 'inactive' : 'active';
         $subCategory->save();
 
-        $status = $subCategory->status == 'active' ? 'Active' : 'Inactive';
+        $status = $subCategory->status == 'active' ? 'Active' : 'InActive';
         return Response::Out("success", "Sub Category Status $status!", "", 200);
     }
     public function edit($id): JsonResponse
@@ -51,6 +121,7 @@ class SubCategoryController extends Controller
         $subCategory->name = $request->name;
         $subCategory->slug = $slug;
         $subCategory->image_url = $request->image_url;
+        $subCategory->category_id = $request->category_id;
         $subCategory->update();
 
         return Response::Out("success", "Sub Category Updated!", "", 200);
