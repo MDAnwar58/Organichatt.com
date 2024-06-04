@@ -1,6 +1,19 @@
 import axiosClient from "../../../axios-client";
 import { successMsg } from "../../../notify";
-import { GET_DATAS, GET_EDIT_DATA, GET_UPDATE_ERRORS } from "./actionType";
+import { GET_DATAS, GET_EDIT_DATA, GET_ERRORS } from "./actionType";
+
+const addData = (payload, navigate) => async (dispatch) => {
+  try {
+    const response = await axiosClient.post(`/brand-store`, payload);
+    if (response.data.status === "success") {
+      successMsg(response.data.msg);
+      dispatch(getErrors([]));
+      navigate("/brands");
+    }
+  } catch (error) {
+    dispatch(getErrors(error.response.data.errors));
+  }
+};
 
 const getDatas =
   (page, limit, setTotalPage, setLoading, selectItemId, search, setPage) =>
@@ -30,6 +43,7 @@ const getDatas =
       type: GET_EDIT_DATA,
       payload: {},
     });
+    dispatch(getErrors([]));
   };
 
 const getItems = (page, limit, items) => (dispatch) => {
@@ -63,45 +77,34 @@ const statusChange =
     }
   };
 
-const getData = (id, setImageUrl) => async (dispatch) => {
+const getData = (id, setGalleryImage) => async (dispatch) => {
   const response = await axiosClient.get(`/brand-edit/${id}`);
-  setImageUrl(response.data.data.image_url);
+  setGalleryImage({
+    imageType: "image",
+    url: response.data.data.image_url,
+  });
   dispatch({
     type: GET_EDIT_DATA,
     payload: response.data.data,
   });
 };
 
-const updateData =
-  (id, payload, form, setNameError, setImageUrlError, navigate) =>
-  async (dispatch) => {
-    try {
-      const response = await axiosClient.post(`/brand-update/${id}`, payload);
-      if (response.data.status === "success") {
-        successMsg(response.data.msg);
-        dispatch({
-          type: GET_EDIT_DATA,
-          payload: {},
-        });
-        form.current.reset();
-        navigate("/brands");
-      }
-    } catch (error) {
-      dispatch(getErrors(error.response.data.errors));
-      if (error.response.data.errors.name) {
-        setNameError(true);
-      }
-      if (error.response.data.errors.image_url) {
-        setImageUrlError(true);
-      }
+const updateData = (id, payload, form, navigate) => async (dispatch) => {
+  try {
+    const response = await axiosClient.post(`/brand-update/${id}`, payload);
+    if (response.data.status === "success") {
+      successMsg(response.data.msg);
+      dispatch({
+        type: GET_EDIT_DATA,
+        payload: {},
+      });
+      dispatch(getErrors([]));
+      form.current.reset();
+      navigate("/brands");
     }
-  };
-
-const getErrors = (errors) => (dispatch) => {
-  dispatch({
-    type: GET_UPDATE_ERRORS,
-    payload: errors,
-  });
+  } catch (error) {
+    dispatch(getErrors(error.response.data.errors));
+  }
 };
 
 const dataDelete =
@@ -124,4 +127,11 @@ const dataDelete =
     }
   };
 
-export { getDatas, statusChange, getData, updateData, dataDelete };
+const getErrors = (errors) => (dispatch) => {
+  dispatch({
+    type: GET_ERRORS,
+    payload: errors,
+  });
+};
+
+export { getDatas, addData, statusChange, getData, updateData, dataDelete };

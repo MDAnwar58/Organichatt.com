@@ -25,7 +25,7 @@ export default function BrandTableTBody({
         brands.map((brand, index) => (
           <tr
             key={index + 1 + (page - 1) * limit}
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            className="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             <td className="px-6 py-4"> {index + 1 + (page - 1) * limit}</td>
             <td
@@ -36,7 +36,13 @@ export default function BrandTableTBody({
             </td>
             <td className="px-6 py-4">{brand.slug}</td>
             <td className="px-6 py-4">
-              <img src={brand.image_url} className="h-20" alt={brand.name} />
+              <div className="h-20 w-20">
+                <img
+                  src={brand.image_url}
+                  className="h-full w-full border rounded-2xl shadow-sm mx-auto"
+                  alt={brand.name}
+                />
+              </div>
             </td>
             <td className="px-6 py-4">
               {brand.status === "active" ? (

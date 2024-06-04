@@ -23,6 +23,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'number' => 'required|decimal:0,2',
+            'weight' => 'required',
         ];
     }
 }

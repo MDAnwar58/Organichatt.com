@@ -15,6 +15,7 @@ import { GalleryCategoryCreateModal } from "./GalleryCategoryCreateModal";
 import THead from "../../../components/THead";
 import DataNotFound from "../../../components/DataNotFound";
 import Table from "../../../components/Table";
+import Column from "../../../components/Column";
 
 export default function GalleryCategoryTable({ openModal, setOpenModal }) {
   const galleryCategoryNameInputRef = useRef(null);
@@ -29,7 +30,11 @@ export default function GalleryCategoryTable({ openModal, setOpenModal }) {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-  const theadColumnName = ["#", "Gallery Category name", "Action"];
+  const theadColumnName = [
+    <Column name="#" />,
+    <Column name="Gallery Category name" />,
+    <Column name="Action" />,
+  ];
 
   useEffect(() => {
     dispatch(getDatas(page, limit, setTotalPage, setLoading));

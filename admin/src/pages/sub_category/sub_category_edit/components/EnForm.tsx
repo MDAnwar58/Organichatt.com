@@ -4,25 +4,11 @@ import Input from "../../../components/Input";
 import ImageInputFile from "../../../components/ImageInputFile";
 import Select from "../../../components/Select";
 
-export default function EnForm({
-  categories,
-  sub_category,
-  setOpenCreateModal,
-  ImageUrl,
-  removeFile,
-  name,
-  category_id,
-  image_url,
-  form,
-  updateSubCategory,
-  errors,
-  disabled,
-  setDisabled,
-}: {
+interface Props {
   categories?: any;
   sub_category?: any;
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
   removeFile?: any;
   name?: any;
   category_id?: any;
@@ -32,7 +18,23 @@ export default function EnForm({
   errors?: any;
   disabled?: any;
   setDisabled?: any;
-}) {
+}
+
+export default function EnForm({
+  categories,
+  sub_category,
+  openGalleryModalHandler,
+  galleryImage,
+  removeFile,
+  name,
+  category_id,
+  image_url,
+  form,
+  updateSubCategory,
+  errors,
+  disabled,
+  setDisabled,
+}: Props) {
   return (
     <Form formRef={form} className={"pt-3 p-5"}>
       <div className="mb-2">
@@ -84,10 +86,10 @@ export default function EnForm({
           title=" and choose file"
           format="PNG, JPG or GIF"
           maxSize="20MB"
-          imageUrl={ImageUrl}
-          inputValue={ImageUrl}
-          onClick={() => setOpenCreateModal(true)}
-          imgClassName="h-40"
+          galleryImage={galleryImage}
+          inputValue={galleryImage.url}
+          onClick={() => openGalleryModalHandler("image")}
+          imgClassName="h-40 rounded-lg"
           removeFile={removeFile}
           inputRef={image_url}
         />

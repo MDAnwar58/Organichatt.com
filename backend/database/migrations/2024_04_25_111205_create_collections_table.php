@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 100);
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }

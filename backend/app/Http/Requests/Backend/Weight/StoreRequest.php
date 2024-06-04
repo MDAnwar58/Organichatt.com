@@ -23,6 +23,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'number' => 'required|unique:weights,number|decimal:0, 2',
+            'weight' => 'required',
         ];
     }
 }

@@ -11,5 +11,6 @@ class Weight extends Model
     protected $table = 'weights';
     protected $fillable = [
         'number',
+        'weight',
     ];
 }

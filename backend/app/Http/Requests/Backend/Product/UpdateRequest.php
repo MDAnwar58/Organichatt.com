@@ -23,27 +23,29 @@ class UpdateRequest extends FormRequest
     {
         return [
             'brand_id' => 'nullable',
-            'category_id' => 'required',
+            'category_id' => 'nullable',
             'sub_category_id' => 'nullable',
             'name' => 'required',
-            'title' => 'required',
+            'title' => 'nullable',
             'price' => 'required',
             'discount_price' => 'nullable',
             'perchese_quantity' => 'required',
             'available_quantity' => 'required',
-            'color_id' => 'nullable',
-            'size_id' => 'nullable',
-            'size_num_id' => 'nullable',
-            'weight_id' => 'nullable',
-            'remark' => 'required',
+            'collection_id' => 'nullable',
             'refundable' => 'required',
             'status' => 'required',
-            'description' => 'required',
-            'specification' => 'required',
+            'description' => 'nullable',
+            'specification' => 'nullable',
             'image_url' => 'nullable',
-            'meta_tag' => 'required',
-            'meta_title' => 'required',
-            'meta_description' => 'required',
+            // seo product
+            'tags' => 'nullable',
+            'meta_title' => 'nullable',
+            'meta_description' => 'nullable',
+            // defferent types stores
+            'color_ids' => 'nullable',
+            'sizes' => 'nullable',
+            'size_numbers' => 'nullable',
+            'weights' => 'nullable',
         ];
     }
 }

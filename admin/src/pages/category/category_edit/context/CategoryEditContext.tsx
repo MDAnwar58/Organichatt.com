@@ -11,15 +11,15 @@ export default function useCategoryEditContext() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const getBrand = (id, setImageUrl) => {
-    dispatch(getData(id, setImageUrl));
+  const getBrand = (id, setGalleryImage) => {
+    dispatch(getData(id, setGalleryImage));
   };
-  const updateBrand = (id) => {
+  const updateBrand = (id, setGalleryImage) => {
     const payload = {
       name: name.current.value,
       image_url: image_url.current.value,
     };
-    dispatch(updateData(id, payload, form, navigate));
+    dispatch(updateData(id, payload, form, setGalleryImage, navigate));
   };
   return {
     getBrand,

@@ -3,27 +3,29 @@ import Form from "../../../components/Form";
 import Input from "../../../components/Input";
 import ImageInputFile from "../../../components/ImageInputFile";
 
-export default function EnForm({
-  brand,
-  setOpenCreateModal,
-  ImageUrl,
-  removeFile,
-  name,
-  image_url,
-  form,
-  updateBrand,
-  errors,
-}: {
+interface Props {
   brand?: any;
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
   removeFile?: any;
   name?: any;
   image_url?: any;
   form?: any;
   updateBrand?: any;
   errors?: any;
-}) {
+}
+
+export default function EnForm({
+  brand,
+  openGalleryModalHandler,
+  galleryImage,
+  removeFile,
+  name,
+  image_url,
+  form,
+  updateBrand,
+  errors,
+}: Props) {
   return (
     <Form formRef={form} className={"pt-3 p-5"}>
       <div className="mb-5">
@@ -42,10 +44,10 @@ export default function EnForm({
           title=" and choose file"
           format="PNG, JPG or GIF"
           maxSize="20MB"
-          imageUrl={ImageUrl}
-          inputValue={ImageUrl}
-          onClick={() => setOpenCreateModal(true)}
-          imgClassName="h-40"
+          galleryImage={galleryImage}
+          inputValue={galleryImage.url}
+          onClick={() => openGalleryModalHandler("image")}
+          imgClassName="h-40 rounded-lg"
           removeFile={removeFile}
           inputRef={image_url}
         />

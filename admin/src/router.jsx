@@ -3,7 +3,6 @@ import App from "./App";
 import SignIn from "./pages/auth/SignIn";
 import Layout from "./Layout";
 import Dashboard from "./pages/dashboard/Dashboard";
-import Categories from "./pages/category/Categories";
 import CategoryCreate from "./pages/category/category_create/CategoryCreate";
 import Gallery from "./pages/gallery/Gallery";
 import GalleryCategory from "./pages/gallery/gallery_category/GalleryCategory";
@@ -30,6 +29,10 @@ import WeightCreate from "./pages/weight/weight_create/WeightCreate";
 import WeightEdit from "./pages/weight/weight_edit/WeightEdit";
 import Product from "./pages/product/Product";
 import ProductCreate from "./pages/product/product_create/ProductCreate";
+import Collection from "./pages/collection/Collection";
+import CollectionCreate from "./pages/collection/collection_create/CollectionCreate";
+import CollectionEdit from "./pages/collection/collection_edit/CollectionEdit";
+import ProductEdit from "./pages/product/product_edit/ProductEdit";
 
 const routes = [
   // {
@@ -47,6 +50,18 @@ const routes = [
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/collections",
+        element: <Collection />,
+      },
+      {
+        path: "/collection-create",
+        element: <CollectionCreate />,
+      },
+      {
+        path: "/collection-edit/:id",
+        element: <CollectionEdit />,
       },
       {
         path: "/brands",
@@ -139,6 +154,10 @@ const routes = [
       {
         path: "/product-create",
         element: <ProductCreate />,
+      },
+      {
+        path: "/product-edit/:id",
+        element: <ProductEdit />,
       },
       {
         path: "/gallery-category",

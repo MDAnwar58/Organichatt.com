@@ -1,7 +1,27 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import DataNotFound from "../../components/DataNotFound";
 import Loading from "../../components/Loading";
+import { PlusIcon, RemoveIcon } from "../../components/Icons";
+
+interface Props {
+  sub_categories?: any;
+  length?: any;
+  loading?: boolean;
+  statusHandle?: any;
+  deleteHandle?: any;
+  page?: any;
+  limit?: any;
+  sortBy?: any;
+  galleryImage?: any;
+  setGalleryImage?: any;
+  setGalleryId?: any;
+  removeFile?: any;
+  openGalleryModalHandler?: any;
+  banner_url?: any;
+  addBanner?: any;
+  removeBanner?: any;
+}
 
 export default function SubCategoryTableTBody({
   sub_categories,
@@ -12,16 +32,15 @@ export default function SubCategoryTableTBody({
   page,
   limit,
   sortBy,
-}: {
-  sub_categories?: any;
-  length?: any;
-  loading?: boolean;
-  statusHandle?: any;
-  deleteHandle?: any;
-  page?: any;
-  limit?: any;
-  sortBy?: any;
-}) {
+  galleryImage,
+  setGalleryImage,
+  setGalleryId,
+  removeFile,
+  openGalleryModalHandler,
+  banner_url,
+  addBanner,
+  removeBanner,
+}: Props) {
   return (
     <tbody>
       {sub_categories.length > 0 ? (
@@ -49,11 +68,91 @@ export default function SubCategoryTableTBody({
             </td>
             <td className="px-6 py-4">{sub_category.slug}</td>
             <td className="px-6 py-4">
-              <img
-                src={sub_category.image_url}
-                className="h-16 w-16 rounded-2xl"
-                alt={sub_category.name}
-              />
+              <div className="h-20 w-20 mx-auto">
+                <img
+                  src={sub_category.image_url}
+                  className="h-full w-full border rounded-2xl shadow-sm"
+                  alt={sub_category.name}
+                />
+              </div>
+            </td>
+            <td className="px-6 py-4">
+              {sub_category.banner_url ? (
+                <div className=" relative h-20 w-20 rounded-3xl mx-auto">
+                  <img
+                    src={sub_category.banner_url}
+                    className="h-full w-full border rounded-3xl shadow-sm mx-auto"
+                    alt={sub_category.name}
+                  />
+                  <button
+                    type="button"
+                    className="text-red-500 border border-red-500 hover:bg-red-500 hover:text-white transition-all absolute top-0 end-0 rounded-full"
+                    onClick={() =>
+                      removeBanner(
+                        sub_category.id,
+                        setGalleryImage,
+                        setGalleryId
+                      )
+                    }
+                  >
+                    <RemoveIcon />
+                  </button>
+                  <input
+                    type="hidden"
+                    ref={banner_url}
+                    value={galleryImage.url}
+                  />
+                </div>
+              ) : (
+                <Fragment>
+                  {galleryImage.url && galleryImage.imageType === "banner" ? (
+                    <Fragment>
+                      <div className=" relative h-20 w-20 rounded-3xl mx-auto">
+                        <img
+                          src={galleryImage.url}
+                          className="h-full w-full border rounded-3xl shadow-sm mx-auto"
+                          alt={sub_category.name}
+                        />
+                        <button
+                          type="button"
+                          className="text-red-500 absolute top-0 end-0 border border-red-500 rounded-full"
+                          onClick={() => removeFile()}
+                        >
+                          <RemoveIcon />
+                        </button>
+                        <input
+                          type="hidden"
+                          ref={banner_url}
+                          value={galleryImage.url}
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className=" uppercase text-sm bg-blue-500 text-white px-3 py-1 mt-1 rounded-3xl"
+                        onClick={() =>
+                          addBanner(
+                            sub_category.id,
+                            setGalleryImage,
+                            setGalleryId
+                          )
+                        }
+                      >
+                        add
+                      </button>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <button
+                        type="button"
+                        className=" bg-blue-500 rounded-lg p-1"
+                        onClick={() => openGalleryModalHandler("banner")}
+                      >
+                        <PlusIcon className="text-white" />
+                      </button>
+                    </Fragment>
+                  )}
+                </Fragment>
+              )}
             </td>
             <td className="px-6 py-4">
               {sub_category.status === "active" ? (

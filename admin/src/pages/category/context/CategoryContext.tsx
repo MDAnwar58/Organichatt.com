@@ -1,18 +1,26 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { dataDelete, getDatas, statusChange } from "../apiCalling/action";
+import {
+  bannerImageStoreOrUpdate,
+  dataDelete,
+  getDatas,
+  iconImageStoreOrUpdate,
+  statusChange,
+} from "../apiCalling/action";
 
 export default function useCategoryContext() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [totalPage, setTotalPage] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [length, setLength] = useState(0);
 
   const dispatch = useDispatch();
 
   const [selectItemId, setSelectItemId] = useState("");
   const [search, setSearch] = useState("");
+
+  const icon_image_url = useRef();
+  const banner_url = useRef();
 
   const getCategories = () => {
     dispatch(
@@ -23,8 +31,7 @@ export default function useCategoryContext() {
         setLoading,
         selectItemId,
         search,
-        setPage,
-        setLength
+        setPage
       )
     );
   };
@@ -39,8 +46,7 @@ export default function useCategoryContext() {
         setLoading,
         selectItemId,
         search,
-        setPage,
-        setLength
+        setPage
       )
     );
   };
@@ -55,8 +61,7 @@ export default function useCategoryContext() {
         setLoading,
         selectItemId,
         search,
-        setPage,
-        setLength
+        setPage
       )
     );
   };
@@ -64,16 +69,7 @@ export default function useCategoryContext() {
   const itemHandle = (id) => {
     setSelectItemId(id);
     dispatch(
-      getDatas(
-        page,
-        limit,
-        setTotalPage,
-        setLoading,
-        id,
-        search,
-        setPage,
-        setLength
-      )
+      getDatas(page, limit, setTotalPage, setLoading, id, search, setPage)
     );
   };
 
@@ -87,8 +83,7 @@ export default function useCategoryContext() {
         setLoading,
         selectItemId,
         e.target.value,
-        setPage,
-        setLength
+        setPage
       )
     );
   };
@@ -103,8 +98,7 @@ export default function useCategoryContext() {
         setLoading,
         selectItemId,
         search,
-        setPage,
-        setLength
+        setPage
       )
     );
   };
@@ -119,8 +113,91 @@ export default function useCategoryContext() {
         setLoading,
         selectItemId,
         search,
-        setPage,
-        setLength
+        setPage
+      )
+    );
+  };
+
+  const addIcon = (id, setGalleryImage, setGalleryId) => {
+    const payload = {
+      icon_image_url: icon_image_url.current.value,
+    };
+    dispatch(
+      iconImageStoreOrUpdate(
+        id,
+        payload,
+        setGalleryImage,
+        setGalleryId,
+        page,
+        limit,
+        setTotalPage,
+        setLoading,
+        selectItemId,
+        search,
+        setPage
+      )
+    );
+  };
+
+  const removeIcon = (id, setGalleryImage, setGalleryId) => {
+    const payload = {
+      icon_image_url: "",
+    };
+    dispatch(
+      iconImageStoreOrUpdate(
+        id,
+        payload,
+        setGalleryImage,
+        setGalleryId,
+        page,
+        limit,
+        setTotalPage,
+        setLoading,
+        selectItemId,
+        search,
+        setPage
+      )
+    );
+  };
+
+  const addBanner = (id, setGalleryImage, setGalleryId) => {
+    const payload = {
+      banner_url: banner_url.current.value,
+    };
+    dispatch(
+      bannerImageStoreOrUpdate(
+        id,
+        payload,
+        setGalleryImage,
+        setGalleryId,
+        page,
+        limit,
+        setTotalPage,
+        setLoading,
+        selectItemId,
+        search,
+        setPage
+      )
+    );
+  };
+
+  const removeBanner = (id, setGalleryImage, setGalleryId) => {
+    const payload = {
+      banner_url: "",
+    };
+    dispatch(
+      bannerImageStoreOrUpdate(
+        id,
+        payload,
+        setGalleryImage,
+        setGalleryId,
+        page,
+        limit,
+        setTotalPage,
+        setLoading,
+        selectItemId,
+        search,
+        setPage
       )
     );
   };
@@ -139,5 +216,11 @@ export default function useCategoryContext() {
     searchHandle,
     statusHandle,
     deleteHandle,
+    icon_image_url,
+    banner_url,
+    addBanner,
+    removeBanner,
+    addIcon,
+    removeIcon,
   };
 }

@@ -2,14 +2,14 @@ import React from "react";
 import Paginate from "./Paginate";
 
 export default function GalleryModalFooter({
-  setOpenCreateModal,
+  setOpenGalleryModal,
   modalCloseHandle,
   paginate,
   page,
   totalPage,
   tab,
 }: {
-  setOpenCreateModal?: any;
+  setOpenGalleryModal?: any;
   modalCloseHandle?: any;
   paginate?: any;
   page?: any;
@@ -29,7 +29,7 @@ export default function GalleryModalFooter({
         {tab !== "upload file" && (
           <button
             type="button"
-            onClick={() => setOpenCreateModal(false)}
+            onClick={() => setOpenGalleryModal(false)}
             className="py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
           >
             Select File

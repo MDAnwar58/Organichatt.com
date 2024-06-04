@@ -1,31 +1,69 @@
 import React, { useEffect, useState } from "react";
 import FormHeader from "../../../components/FormHeader";
-import Form from "../../../components/Form";
 import Input from "../../../components/Input";
 import ImageInputFile from "../../../components/ImageInputFile";
 import Select from "../../../components/Select";
 import { useSelector } from "react-redux";
-import useSubCategoryCreateContext from "../context/SubCategoryCreateContext";
 import InputRadio from "../../../components/InputRadio";
 import ToogleCheckBox from "../../../components/ToogleCheckBox";
 import MultipleSelect from "../../../components/MultipleSelect";
 import TextEditor from "../../../components/TextEditor";
+import InputTag from "../../../components/InputTag";
+import useProductCreateContext from "../context/ProductCreateContext";
+import MultipleInputAdd from "../../../components/MultipleInputAdd";
 
 interface Props {
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
   removeFile?: any;
   sideBar?: any;
 }
 
 export default function ProductForm({
-  setOpenCreateModal,
-  ImageUrl,
+  openGalleryModalHandler,
+  galleryImage,
   removeFile,
   sideBar,
 }: Props) {
-  const { getCategories, name, category_id, image_url, form, addGallery } =
-    useSubCategoryCreateContext();
+  const {
+    getCollections,
+    getBrands,
+    getCategories,
+    getSubCategories,
+    getColors,
+    getSizes,
+    getSizeNumbers,
+    getWeights,
+    name,
+    title,
+    price,
+    discount_price,
+    perchese_quantity,
+    available_quantity,
+    setRefundable,
+    image_url,
+    collection_id,
+    brand_id,
+    category_id,
+    sub_category_id,
+    des,
+    colorIds,
+    setColorIds,
+    Sizes,
+    setSizes,
+    SizeNumbers,
+    setSizeNumbers,
+    Weights,
+    setWeights,
+    tags,
+    setTags,
+    meta_title,
+    meta_des,
+    specification,
+    setStatus,
+    form,
+    addProduct,
+  } = useProductCreateContext();
   const [collectionDisabled, setCollectionDisabled] = useState(true);
   const [brandDisabled, setBrandDisabled] = useState(true);
   const [categoryDisabled, setCategoryDisabled] = useState(true);
@@ -36,25 +74,229 @@ export default function ProductForm({
   const [weightDisabled, setWeightDisabled] = useState(true);
 
   useEffect(() => {
+    getCollections();
+    getBrands();
     getCategories();
+    getSubCategories();
+    getColors();
+    getSizes();
+    getSizeNumbers();
+    getWeights();
   }, []);
 
   const errors = useSelector((state) => state.errors);
+  const collections = useSelector((state) => state.collections);
+  const brands = useSelector((state) => state.brands);
   const categories = useSelector((state) => state.categories);
+  const sub_categories = useSelector((state) => state.sub_categories);
+  const colors = useSelector((state) => state.colors);
+  const sizes = useSelector((state) => state.sizes);
+  const size_numbers = useSelector((state) => state.size_numbers);
+  const weights = useSelector((state) => state.weights);
 
-  const colors = [
-    <option>2016</option>,
-    <option>2017</option>,
-    <option>2018</option>,
-    <option>2019</option>,
-    <option>2020</option>,
-    <option>2021</option>,
-    <option>2022</option>,
-  ];
+  const sepecificationConfig = {
+    readonly: false,
+    placeholder: "write specification...",
+    height: 580,
+    toolbarButtonSize: "large",
+  };
+  const descriptionConfig = {
+    readonly: false,
+    height: 423,
+    toolbarButtonSize: "large",
+    placeholder: "write description...",
+    buttons: [
+      "bold",
+      "italic",
+      "underline",
+      "strikethrough",
+      "eraser",
+      "|",
+      "font",
+      "fontsize",
+      "paragraph",
+      "|",
+      "image",
+      "video",
+      "link",
+      "|",
+      "align",
+      "undo",
+      "redo",
+      "copyformat",
+      "|",
+      "hr",
+      "symbol",
+      "fullsize",
+      "preview",
+      "print",
+      "source",
+    ],
+  };
+  const metaDescriptionConfig = {
+    readonly: false,
+    height: 300,
+    toolbarButtonSize: "small",
+    placeholder: "write meta description...",
+    buttons: [
+      "bold",
+      "italic",
+      "underline",
+      "strikethrough",
+      "eraser",
+      "|",
+      "font",
+      "fontsize",
+      "paragraph",
+      "|",
+      "image",
+      "video",
+      "link",
+      "|",
+      "align",
+      "undo",
+      "redo",
+      "copyformat",
+      "|",
+      "hr",
+      "symbol",
+      "fullsize",
+      "preview",
+      "print",
+      "source",
+    ],
+  };
+
+  const colorSelectHandle = (colorId) => {
+    const selectedColorId = colorId;
+    setColorIds((prevIds) => {
+      if (prevIds.includes(selectedColorId)) {
+        return prevIds.filter((id) => id !== selectedColorId);
+      } else {
+        return [...prevIds, selectedColorId];
+      }
+    });
+  };
+
+  // multiple input fields add event start
+  // * size event start
+  const addNewSizeFields = () => {
+    setSizes([...Sizes, { size_id: "", price: "", discount_price: "" }]);
+  };
+  const handleSizeSelectChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newFields = [...Sizes];
+    newFields[index].size_id = event.target.value;
+    setSizes(newFields);
+  };
+  const handleSizePriceChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newFields = [...Sizes];
+    newFields[index].price = event.target.value;
+    setSizes(newFields);
+  };
+  const handleSizeDiscountPriceChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newFields = [...Sizes];
+    newFields[index].discount_price = event.target.value;
+    setSizes(newFields);
+  };
+  // * size event end
+
+  // * size number event start
+  const addNewSizeNumberFields = () => {
+    setSizeNumbers([
+      ...SizeNumbers,
+      { size_number_id: "", price: "", discount_price: "" },
+    ]);
+  };
+  const handleSizeNumberSelectChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newFields = [...SizeNumbers];
+    newFields[index].size_number_id = event.target.value;
+    setSizeNumbers(newFields);
+  };
+  const handleSizeNumberPriceChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newFields = [...SizeNumbers];
+    newFields[index].price = event.target.value;
+    setSizeNumbers(newFields);
+  };
+  const handleSizeNumberDiscountPriceChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newFields = [...SizeNumbers];
+    newFields[index].discount_price = event.target.value;
+    setSizeNumbers(newFields);
+  };
+  // * size number event end
+
+  // * weight event start
+  const addNewWeightFields = () => {
+    setWeights([...Weights, { weight_id: "", price: "", discount_price: "" }]);
+  };
+  const handleWeightSelectChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newFields = [...Weights];
+    newFields[index].weight_id = event.target.value;
+    setWeights(newFields);
+  };
+  const handleWeightPriceChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newFields = [...Weights];
+    newFields[index].price = event.target.value;
+    setWeights(newFields);
+  };
+  const handleWeightDiscountPriceChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newFields = [...Weights];
+    newFields[index].discount_price = event.target.value;
+    setWeights(newFields);
+  };
+  // * weight event end
+  // multiple input fields add event end
+
+  // const sizeNumberSelectHandle = (e) => {
+  //   const selectedSizeNumberId = e.target.value;
+  //   setSizeNumberIds((prevIds) => {
+  //     if (prevIds.includes(selectedSizeNumberId)) {
+  //       return prevIds.filter((id) => id !== selectedSizeNumberId);
+  //     } else {
+  //       return [...prevIds, selectedSizeNumberId];
+  //     }
+  //   });
+  // };
+  // const weightSelectHandle = (e) => {
+  //   const selectedWeightId = e.target.value;
+  //   setWeightIds((prevIds) => {
+  //     if (prevIds.includes(selectedWeightId)) {
+  //       return prevIds.filter((id) => id !== selectedWeightId);
+  //     } else {
+  //       return [...prevIds, selectedWeightId];
+  //     }
+  //   });
+  // };
   return (
     <div className=" w-full pt-0 mt-16">
       <FormHeader title="Product Added" />
-      <form action="">
+      <form ref={form}>
         <div className={`${sideBar === true ? "4lg:flex" : "6md:flex"}`}>
           <div
             className={`${
@@ -69,12 +311,13 @@ export default function ProductForm({
                   className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Product name"
                   error={errors.name}
+                  required
                 />
               </div>
               <div className="mb-5">
                 <Input
                   type="text"
-                  inputRef={name}
+                  inputRef={title}
                   className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Product title"
                   error={errors.title}
@@ -83,16 +326,17 @@ export default function ProductForm({
               <div className="mb-5">
                 <Input
                   type="text"
-                  inputRef={name}
+                  inputRef={price}
                   className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Price"
                   error={errors.price}
+                  required
                 />
               </div>
               <div className="mb-5">
                 <Input
                   type="text"
-                  inputRef={name}
+                  inputRef={discount_price}
                   className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Discount price"
                   error={errors.discount_price}
@@ -101,30 +345,31 @@ export default function ProductForm({
               <div className="mb-5">
                 <Input
                   type="text"
-                  inputRef={name}
+                  inputRef={perchese_quantity}
                   className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Perchese quantity"
                   error={errors.perchese_quantity}
+                  required
                 />
               </div>
               <div className="mb-5">
                 <Input
                   type="text"
-                  inputRef={name}
+                  inputRef={available_quantity}
                   className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Available quantity"
                   error={errors.available_quantity}
+                  required
                 />
               </div>
               <div className="mb-5">
                 <ImageInputFile
                   title=" and choose file"
                   format="PNG, JPG or GIF"
-                  maxSize="20MB"
-                  imageUrl={ImageUrl}
+                  galleryImage={galleryImage}
                   imgClassName="h-full"
-                  onClick={() => setOpenCreateModal(true)}
-                  inputValue={ImageUrl}
+                  onClick={() => openGalleryModalHandler("image")}
+                  inputValue={galleryImage.url}
                   removeFile={removeFile}
                   inputRef={image_url}
                   height={52}
@@ -142,13 +387,13 @@ export default function ProductForm({
                   defaultValue="yes"
                   idWithDetectLabel="yes"
                   defaultChecked={true}
-                  inputRef={name}
+                  onChange={(e) => setRefundable(e.target.value)}
                 />
                 <InputRadio
                   label="No"
                   defaultValue="no"
                   idWithDetectLabel="no"
-                  inputRef={name}
+                  onChange={(e) => setRefundable(e.target.value)}
                 />
                 {errors.refundable && (
                   <small className="text-red-500 px-3">
@@ -159,16 +404,26 @@ export default function ProductForm({
               <div className=" flex items-center mb-5">
                 <Select
                   disabled={collectionDisabled}
-                  inputRef={category_id}
+                  inputRef={collection_id}
                   className={`px-5 ${
                     collectionDisabled === true ? "bg-gray-300" : "bg-gray-50"
                   } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                  error={errors.collection_id}
                 >
-                  <option value="">Choose collection</option>
-                  {categories.length > 0 &&
-                    categories.map((category, index) => (
-                      <option key={index + 1} value={category.id}>
-                        {category.name}
+                  <option
+                    className="text-gray-600 text-md font-medium"
+                    value=""
+                  >
+                    Choose collection
+                  </option>
+                  {collections.length > 0 &&
+                    collections.map((collection, index) => (
+                      <option
+                        key={collection.id}
+                        value={collection.id}
+                        className="text-gray-700 text-xl font-medium"
+                      >
+                        {collection.name}
                       </option>
                     ))}
                 </Select>
@@ -180,18 +435,28 @@ export default function ProductForm({
               <div className=" flex items-center mb-5">
                 <Select
                   disabled={brandDisabled}
-                  inputRef={category_id}
+                  inputRef={brand_id}
                   className={`px-5 ${
                     brandDisabled === true ? "bg-gray-300" : "bg-gray-50"
                   } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                 >
-                  <option value="">Choose brand</option>
-                  {categories.length > 0 &&
-                    categories.map((category, index) => (
-                      <option key={index + 1} value={category.id}>
-                        {category.name}
+                  <option
+                    value=""
+                    className="text-gray-600 text-md font-medium"
+                  >
+                    Choose brand
+                  </option>
+                  {brands.length > 0 ? (
+                    brands.map((brand, index) => (
+                      <option key={index + 1} value={brand.id}>
+                        {brand.name}
                       </option>
-                    ))}
+                    ))
+                  ) : (
+                    <option className=" text-gray-600 text-xl font-medium">
+                      Brands not found
+                    </option>
+                  )}
                 </Select>
                 <ToogleCheckBox
                   onChange={() => setBrandDisabled(!brandDisabled)}
@@ -205,14 +470,25 @@ export default function ProductForm({
                   className={`px-5 ${
                     categoryDisabled === true ? "bg-gray-300" : "bg-gray-50"
                   } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                  required
                 >
-                  <option value="">Choose category</option>
-                  {categories.length > 0 &&
+                  <option
+                    value=""
+                    className="text-gray-600 text-md font-medium"
+                  >
+                    Choose category
+                  </option>
+                  {categories.length > 0 ? (
                     categories.map((category, index) => (
                       <option key={index + 1} value={category.id}>
                         {category.name}
                       </option>
-                    ))}
+                    ))
+                  ) : (
+                    <option className=" text-gray-600 text-xl font-medium">
+                      Categories not found
+                    </option>
+                  )}
                 </Select>
 
                 <ToogleCheckBox
@@ -223,18 +499,28 @@ export default function ProductForm({
               <div className="flex items-center">
                 <Select
                   disabled={subCategoryDisabled}
-                  inputRef={category_id}
+                  inputRef={sub_category_id}
                   className={`px-5 ${
                     subCategoryDisabled === true ? "bg-gray-300" : "bg-gray-50"
                   } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                 >
-                  <option value="">Choose sub category</option>
-                  {categories.length > 0 &&
-                    categories.map((category, index) => (
-                      <option key={index + 1} value={category.id}>
-                        {category.name}
+                  <option
+                    value=""
+                    className="text-gray-600 text-md font-medium"
+                  >
+                    Choose sub category
+                  </option>
+                  {sub_categories.length > 0 ? (
+                    sub_categories.map((sub_category, index) => (
+                      <option key={index + 1} value={sub_category.id}>
+                        {sub_category.name}
                       </option>
-                    ))}
+                    ))
+                  ) : (
+                    <option className=" text-gray-600 text-md font-medium">
+                      Sub Category not found
+                    </option>
+                  )}
                 </Select>
                 <ToogleCheckBox
                   onChange={() => setSubCategoryDisabled(!subCategoryDisabled)}
@@ -244,11 +530,7 @@ export default function ProductForm({
             </div>
 
             <div className="my-3 p-5 bg-gray-50 dark:bg-gray-800 shadow-sm border dark:border-gray-900 rounded-lg">
-              <textarea
-                rows={15}
-                placeholder="write meta description..."
-                className=" w-full rounded-lg border border-gray-300 bg-gray-50"
-              ></textarea>
+              <TextEditor config={descriptionConfig} textEditorRef={des} />
             </div>
           </div>
           <div
@@ -265,81 +547,125 @@ export default function ProductForm({
                 size={5}
                 items={colors}
                 defaultChecked
-                detectOptionWithlabel="years"
+                detectOptionWithlabel="colors"
                 onChangeToogleCheck={() => setColorDisabled(!colorDisabled)}
+                onClick={colorSelectHandle}
+                ids={colorIds}
               />
             </div>
             <div className="p-5 mb-3 bg-gray-50 dark:bg-gray-800 shadow-sm border dark:border-gray-900 rounded-lg">
-              <MultipleSelect
+              {/* <MultipleSelect
                 disabled={sizeDisabled}
                 label="Select Size"
                 size={5}
-                items={colors}
+                items={sizes}
                 defaultChecked
-                detectOptionWithlabel="years"
+                detectOptionWithlabel="sizes"
                 onChangeToogleCheck={() => setSizeDisabled(!sizeDisabled)}
+                onClick={sizeSelectHandle}
+                ids={sizeIds}
+              /> */}
+              <MultipleInputAdd
+                label="Select Size With Price"
+                disabled={sizeDisabled}
+                defaultChecked
+                onChangeToogleCheck={() => setSizeDisabled(!sizeDisabled)}
+                options={sizes}
+                onBtnClick={addNewSizeFields}
+                fields={Sizes}
+                onChangeSelect={handleSizeSelectChange}
+                onChangePrice={handleSizePriceChange}
+                onChangeDiscountPrice={handleSizeDiscountPriceChange}
               />
             </div>
             <div className="p-5 mb-3 bg-gray-50 dark:bg-gray-800 shadow-sm border dark:border-gray-900 rounded-lg">
-              <MultipleSelect
+              {/* <MultipleSelect
                 disabled={sizeNumberDisabled}
                 label="Select Size Number"
                 size={5}
-                items={colors}
+                items={size_numbers}
                 defaultChecked
-                detectOptionWithlabel="years"
+                detectOptionWithlabel="size_numbers"
                 onChangeToogleCheck={() =>
                   setSizeNumberDisabled(!sizeNumberDisabled)
                 }
+                onClick={sizeNumberSelectHandle}
+                ids={sizeNumberIds}
+              /> */}
+              <MultipleInputAdd
+                label="Select Size Number With Price"
+                disabled={sizeNumberDisabled}
+                defaultChecked
+                onChangeToogleCheck={() =>
+                  setSizeNumberDisabled(!sizeNumberDisabled)
+                }
+                options={size_numbers}
+                onBtnClick={addNewSizeNumberFields}
+                fields={SizeNumbers}
+                onChangeSelect={handleSizeNumberSelectChange}
+                onChangePrice={handleSizeNumberPriceChange}
+                onChangeDiscountPrice={handleSizeNumberDiscountPriceChange}
               />
             </div>
             <div className="p-5 mb-3 bg-gray-50 dark:bg-gray-800 shadow-sm border dark:border-gray-900 rounded-lg">
-              <MultipleSelect
+              {/* <MultipleSelect
                 disabled={weightDisabled}
                 label="Select Weight"
                 size={5}
-                items={colors}
+                items={weights}
                 defaultChecked
-                detectOptionWithlabel="years"
+                detectOptionWithlabel="weights"
                 onChangeToogleCheck={() => setWeightDisabled(!weightDisabled)}
+                onClick={weightSelectHandle}
+                ids={weightIds}
+              /> */}
+
+              <MultipleInputAdd
+                label="Select Weight With Price"
+                disabled={weightDisabled}
+                defaultChecked
+                onChangeToogleCheck={() => setWeightDisabled(!weightDisabled)}
+                options={weights}
+                onBtnClick={addNewWeightFields}
+                fields={Weights}
+                onChangeSelect={handleWeightSelectChange}
+                onChangePrice={handleWeightPriceChange}
+                onChangeDiscountPrice={handleWeightDiscountPriceChange}
               />
             </div>
             <div className="p-5 mb-3 bg-gray-50 dark:bg-gray-800 shadow-sm border dark:border-gray-900 rounded-lg">
               <div className="mb-5">
-                <Input
-                  type="text"
-                  inputRef={name}
-                  className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Meta tag"
-                  error={errors.name}
-                />
+                <InputTag tags={tags} setTags={setTags} />
               </div>
+
               <div className="mb-5">
                 <Input
                   type="text"
-                  inputRef={name}
+                  inputRef={meta_title}
                   className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Meta title"
-                  error={errors.name}
+                  error={errors.meta_title}
                 />
               </div>
               <div className="mb-5">
-                <textarea
-                  rows={10}
-                  placeholder="write meta description..."
-                  className=" w-full rounded-lg border border-gray-300 bg-gray-50"
-                ></textarea>
+                <TextEditor
+                  config={metaDescriptionConfig}
+                  textEditorRef={meta_des}
+                />
               </div>
             </div>
           </div>
         </div>
         <div className="my-3 p-5 bg-gray-50 dark:bg-gray-800 shadow-sm border dark:border-gray-900 rounded-lg">
-          <TextEditor placeholder="write specification..." />
+          <TextEditor
+            config={sepecificationConfig}
+            textEditorRef={specification}
+          />
         </div>
         <div className=" flex justify-end items-center">
           <button
             type="button"
-            onClick={() => addGallery()}
+            onClick={(e) => addProduct(e)}
             className="text-md font-semibold text-white bg-green-300 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 uppercase"
             value="publish"
           >
@@ -347,7 +673,7 @@ export default function ProductForm({
           </button>
           <button
             type="button"
-            onClick={() => addGallery()}
+            onClick={(e) => addGallery(e)}
             className="ms-3 text-md font-semibold text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 uppercase"
             value="unpublish"
           >

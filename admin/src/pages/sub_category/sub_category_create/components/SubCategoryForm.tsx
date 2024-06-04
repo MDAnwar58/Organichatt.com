@@ -7,15 +7,17 @@ import Select from "../../../components/Select";
 import { useSelector } from "react-redux";
 import useSubCategoryCreateContext from "../context/SubCategoryCreateContext";
 
-export default function SubCategoryForm({
-  setOpenCreateModal,
-  ImageUrl,
-  removeFile,
-}: {
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
+interface Props {
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
   removeFile?: any;
-}) {
+}
+
+export default function SubCategoryForm({
+  openGalleryModalHandler,
+  galleryImage,
+  removeFile,
+}: Props) {
   const { getCategories, name, category_id, image_url, form, addGallery } =
     useSubCategoryCreateContext();
   const [disabled, setDisabled] = useState(true);
@@ -75,10 +77,10 @@ export default function SubCategoryForm({
             title=" and choose file"
             format="PNG, JPG or GIF"
             maxSize="20MB"
-            imageUrl={ImageUrl}
-            imgClassName="h-40"
-            onClick={() => setOpenCreateModal(true)}
-            inputValue={ImageUrl}
+            galleryImage={galleryImage}
+            imgClassName="h-40 rounded-lg"
+            onClick={() => openGalleryModalHandler("image")}
+            inputValue={galleryImage.url}
             removeFile={removeFile}
             inputRef={image_url}
           />

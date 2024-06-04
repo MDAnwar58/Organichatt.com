@@ -58,6 +58,31 @@ class CategoryController extends Controller
 
         return Response::Out("success", "Category Created!", "", 200);
     }
+    public function iconStoreOrUpdate(Request $request, $id): JsonResponse
+    {
+        $category = Category::find($id);
+        $category->icon_image_url = $request->icon_image_url;
+        $category->update();
+
+
+        if (!is_null($category->icon_image_url)) {
+            return Response::Out("success", "Category Icon Stored!", "", 200);
+        } else {
+            return Response::Out("success", "Category Icon Remove!", "", 200);
+        }
+    }
+    public function bannerStoreOrUpdate(Request $request, $id)
+    {
+        $category = Category::find($id);
+        $category->banner_url = $request->banner_url;
+        $category->update();
+
+        if (!is_null($category->banner_url)) {
+            return Response::Out("success", "Category Banner Stored!", "", 200);
+        } else {
+            return Response::Out("success", "Category Banner Remove!", "", 200);
+        }
+    }
     // category status change active and inactive status functiona
     public function status($id): JsonResponse
     {
@@ -73,18 +98,14 @@ class CategoryController extends Controller
         $category = Category::find($id);
         return Response::Out("", "", $category, 200);
     }
-    public function update(UpdateRequest $request, $id): JsonResponse
+    public function update(UpdateRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'image_url' => 'required',
-        ]);
-
         $category = Category::find($id);
+        $slug = Category::generateSlugForUpdate($category->name, $category->slug, $request->name);
         $category->name = $request->name;
-        $category->slug = Category::generateSlugForUpdate($category->name, $category->slug, $request->name);
+        $category->slug = $slug;
         $category->image_url = $request->image_url;
-        $category->save();
+        $category->update();
 
         return Response::Out("success", "Category Updated!", "", 200);
     }

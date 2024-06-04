@@ -4,7 +4,7 @@ import {
   GET_CATEGORIES,
   GET_DATAS,
   GET_EDIT_DATA,
-  GET_UPDATE_ERRORS,
+  GET_SUBMIT_ERRORS,
 } from "./actionType";
 
 const getDatas =
@@ -24,7 +24,6 @@ const getDatas =
     const response = await axiosClient.get(
       `/sub-categories-get?sort_by_dir=${sortByDir}&sort_by=${sortBy}&status=${selectItemId}&search=${search}`
     );
-
     let totalItemsLength = response.data.data.sub_categories.length;
     setLength(totalItemsLength);
     let totalPagesFromResponse = Math.ceil(totalItemsLength / limit);
@@ -48,6 +47,7 @@ const getDatas =
       type: GET_EDIT_DATA,
       payload: {},
     });
+    dispatch(getErrors([]));
   };
 
 const getItems = (page, limit, items) => (dispatch) => {
@@ -60,6 +60,19 @@ const getItems = (page, limit, items) => (dispatch) => {
     type: GET_DATAS,
     payload: array,
   });
+};
+
+const addData = (payload, navigate) => async (dispatch) => {
+  try {
+    const response = await axiosClient.post(`/sub-category-store`, payload);
+    if (response.data.status === "success") {
+      successMsg(response.data.msg);
+      dispatch(getErrors([]));
+      navigate("/sub-categories");
+    }
+  } catch (error) {
+    dispatch(getErrors(error.response.data.errors));
+  }
 };
 
 const statusChange =
@@ -170,12 +183,15 @@ const getCategoryDatas = () => async (dispatch) => {
   });
 };
 
-const getData = (id, setImageUrl, setDisabled) => async (dispatch) => {
+const getData = (id, setGalleryImage, setDisabled) => async (dispatch) => {
   const response = await axiosClient.get(`/sub-category-edit/${id}`);
   if (response.data.data.category_id !== null) {
     setDisabled(false);
   }
-  setImageUrl(response.data.data.image_url);
+  setGalleryImage({
+    imageType: "image",
+    url: response.data.data.image_url,
+  });
   dispatch({
     type: GET_EDIT_DATA,
     payload: response.data.data,
@@ -205,17 +221,65 @@ const updateData = (id, payload, form, navigate) => async (dispatch) => {
 
 const getErrors = (errors) => (dispatch) => {
   dispatch({
-    type: GET_UPDATE_ERRORS,
+    type: GET_SUBMIT_ERRORS,
     payload: errors,
   });
 };
 
+const bannerImageStoreOrUpdate =
+  (
+    id,
+    payload,
+    setGalleryImage,
+    setGalleryId,
+    page,
+    limit,
+    setTotalPage,
+    setLoading,
+    selectItemId,
+    search,
+    setPage,
+    setLength,
+    sortByDir,
+    sortBy
+  ) =>
+  async (dispatch) => {
+    const response = await axiosClient.post(
+      `/sub-category-banner-store-or-update/${id}`,
+      payload
+    );
+    if (response.data.status) {
+      successMsg(response.data.msg);
+      setGalleryImage({
+        imageType: "",
+        url: "",
+      });
+      setGalleryId(null);
+      dispatch(
+        getDatas(
+          page,
+          limit,
+          setTotalPage,
+          setLoading,
+          selectItemId,
+          search,
+          setPage,
+          setLength,
+          sortByDir,
+          sortBy
+        )
+      );
+    }
+  };
+
 export {
   getDatas,
+  addData,
   statusChange,
   dataDelete,
   dataSorting,
   getCategoryDatas,
   getData,
   updateData,
+  bannerImageStoreOrUpdate,
 };

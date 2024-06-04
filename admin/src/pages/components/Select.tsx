@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { StarIcon } from "./Icons";
 
 interface Props {
   label?: any;
@@ -9,6 +10,8 @@ interface Props {
   className?: any;
   error?: any;
   disabled?: boolean;
+  onChange?: any;
+  required?: boolean;
 }
 
 export default function Select({
@@ -20,6 +23,8 @@ export default function Select({
   className,
   error,
   disabled,
+  onChange,
+  required,
 }: Props) {
   return (
     <Fragment>
@@ -29,9 +34,11 @@ export default function Select({
         className={className}
         value={selectedValue}
         disabled={disabled}
+        onChange={onChange}
       >
         {children}
       </select>
+      {required && <StarIcon className="text-red-500 ms-2 text-xs" />}
       {error && <small className=" text-red-500 px-3">{error}</small>}
     </Fragment>
   );

@@ -60,7 +60,7 @@ export default function ProductContent() {
       sortByDir={sortByDir === "id" && "id"}
     />,
     <Column
-      name="Sub Category Name"
+      name="Product Name"
       icon={true}
       sortBy={sortBy}
       iconClassName="ms-1"
@@ -68,6 +68,16 @@ export default function ProductContent() {
       sortByDir={sortByDir === "name" && "name"}
     />,
     <Column name="Slug" />,
+    <Column name="Price" />,
+    <Column name="Discount Price" />,
+    <Column name="Collection" />,
+    <Column name="Brand" />,
+    <Column name="Category" />,
+    <Column name="Sub Category" />,
+    <Column name="Colors" />,
+    <Column name="Sizes" />,
+    <Column name="Size Numbers" />,
+    <Column name="Weights" />,
     <Column name="Image" />,
     <Column name="Status" />,
     <Column name="Action" />,

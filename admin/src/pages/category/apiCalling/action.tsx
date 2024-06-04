@@ -2,24 +2,27 @@ import axiosClient from "../../../axios-client";
 import { successMsg } from "../../../notify";
 import { GET_DATA, GET_DATAS, GET_ERRORS } from "./actionType";
 
+const addData = (payload, navigate) => async (dispatch) => {
+  try {
+    const response = await axiosClient.post(`/category-store`, payload);
+    if (response.data.status === "success") {
+      successMsg(response.data.msg);
+      dispatch(getErrors([]));
+      navigate("/categories");
+    }
+  } catch (error) {
+    dispatch(getErrors(error.response.data.errors));
+  }
+};
+
 const getDatas =
-  (
-    page,
-    limit,
-    setTotalPage,
-    setLoading,
-    selectItemId,
-    search,
-    setPage,
-    setLength
-  ) =>
+  (page, limit, setTotalPage, setLoading, selectItemId, search, setPage) =>
   async (dispatch) => {
     const response = await axiosClient.get(
       `/categories-get?status=${selectItemId}&search=${search}`
     );
     // console.log(response.data.data.categories);
     let totalItemsLength = response.data.data.categories.length;
-    setLength(totalItemsLength);
     let totalPagesFromResponse = Math.ceil(totalItemsLength / limit);
     setTotalPage(totalPagesFromResponse);
 
@@ -41,6 +44,7 @@ const getDatas =
       type: GET_DATA,
       payload: {},
     });
+    dispatch(getErrors([]));
   };
 
 const getItems = (page, limit, items) => (dispatch) => {
@@ -54,6 +58,86 @@ const getItems = (page, limit, items) => (dispatch) => {
     payload: array,
   });
 };
+
+const iconImageStoreOrUpdate =
+  (
+    id,
+    payload,
+    setGalleryImage,
+    setGalleryId,
+    page,
+    limit,
+    setTotalPage,
+    setLoading,
+    selectItemId,
+    search,
+    setPage
+  ) =>
+  async (dispatch) => {
+    const response = await axiosClient.post(
+      `/category-icon-store-or-update/${id}`,
+      payload
+    );
+    if (response.data.status) {
+      successMsg(response.data.msg);
+      setGalleryImage({
+        imageType: "",
+        url: "",
+      });
+      setGalleryId(null);
+      dispatch(
+        getDatas(
+          page,
+          limit,
+          setTotalPage,
+          setLoading,
+          selectItemId,
+          search,
+          setPage
+        )
+      );
+    }
+  };
+
+const bannerImageStoreOrUpdate =
+  (
+    id,
+    payload,
+    setGalleryImage,
+    setGalleryId,
+    page,
+    limit,
+    setTotalPage,
+    setLoading,
+    selectItemId,
+    search,
+    setPage
+  ) =>
+  async (dispatch) => {
+    const response = await axiosClient.post(
+      `/category-banner-store-or-update/${id}`,
+      payload
+    );
+    if (response.data.status) {
+      successMsg(response.data.msg);
+      setGalleryImage({
+        imageType: "",
+        url: "",
+      });
+      setGalleryId(null);
+      dispatch(
+        getDatas(
+          page,
+          limit,
+          setTotalPage,
+          setLoading,
+          selectItemId,
+          search,
+          setPage
+        )
+      );
+    }
+  };
 
 const statusChange =
   (
@@ -79,8 +163,7 @@ const statusChange =
           setLoading,
           selectItemId,
           search,
-          setPage,
-          setLength
+          setPage
         )
       );
     }
@@ -110,42 +193,52 @@ const dataDelete =
           setLoading,
           selectItemId,
           search,
-          setPage,
-          setLength
+          setPage
         )
       );
     }
   };
 
-const getData = (id, setImageUrl) => async (dispatch) => {
+const getData = (id, setGalleryImage) => async (dispatch) => {
   const response = await axiosClient.get(`/category-edit/${id}`);
-  setImageUrl(response.data.data.image_url);
+  setGalleryImage({
+    imageType: "image",
+    url: response.data.data.image_url,
+  });
   dispatch({
     type: GET_DATA,
     payload: response.data.data,
   });
 };
 
-const updateData = (id, payload, form, navigate) => async (dispatch) => {
-  try {
-    const response = await axiosClient.post(`/category-update/${id}`, payload);
-    if (response.data.status === "success") {
-      successMsg(response.data.msg);
-      dispatch({
-        type: GET_DATA,
-        payload: {},
-      });
-      dispatch({
-        type: GET_ERRORS,
-        payload: [],
-      });
-      form.current.reset();
-      navigate("/categories");
+const updateData =
+  (id, payload, form, setGalleryImage, navigate) => async (dispatch) => {
+    try {
+      const response = await axiosClient.post(
+        `/category-update/${id}`,
+        payload
+      );
+      if (response.data.status === "success") {
+        successMsg(response.data.msg);
+        dispatch({
+          type: GET_DATA,
+          payload: {},
+        });
+        dispatch({
+          type: GET_ERRORS,
+          payload: [],
+        });
+        form.current.reset();
+        setGalleryImage({
+          imageType: "",
+          url: "",
+        });
+        navigate("/categories");
+      }
+    } catch (error) {
+      dispatch(getErrors(error.response.data.errors));
     }
-  } catch (error) {
-    dispatch(getErrors(error.response.data.errors));
-  }
-};
+  };
 
 const getErrors = (errors) => (dispatch) => {
   dispatch({
@@ -154,4 +247,13 @@ const getErrors = (errors) => (dispatch) => {
   });
 };
 
-export { getDatas, statusChange, dataDelete, getData, updateData };
+export {
+  getDatas,
+  addData,
+  bannerImageStoreOrUpdate,
+  iconImageStoreOrUpdate,
+  statusChange,
+  dataDelete,
+  getData,
+  updateData,
+};

@@ -9,8 +9,8 @@ export default function BrandEditPage() {
   const {
     getGalleryCategories,
     getGalleries,
-    openCreateModal,
-    setOpenCreateModal,
+    openGalleryModal,
+    setOpenGalleryModal,
     galleryCategoryId,
     itemHandle,
     searchHandler,
@@ -31,9 +31,10 @@ export default function BrandEditPage() {
     imageError,
     galleryId,
     setGalleryId,
-    ImageUrl,
-    setImageUrl,
+    galleryImage,
+    setGalleryImage,
     selectGalleryImage,
+    openGalleryModalHandler,
     removeFile,
   } = useGalleryContext();
 
@@ -47,15 +48,15 @@ export default function BrandEditPage() {
   return (
     <Provider store={store}>
       <BrandEditContent
-        setOpenCreateModal={setOpenCreateModal}
-        ImageUrl={ImageUrl}
-        setImageUrl={setImageUrl}
+        openGalleryModalHandler={openGalleryModalHandler}
+        galleryImage={galleryImage}
+        setGalleryImage={setGalleryImage}
         removeFile={removeFile}
       />
 
       <GalleryModal
-        openCreateModal={openCreateModal}
-        setOpenCreateModal={setOpenCreateModal}
+        openGalleryModal={openGalleryModal}
+        setOpenGalleryModal={setOpenGalleryModal}
         galleryCategoryId={galleryCategoryId}
         itemHandle={itemHandle}
         galleries={galleries}
@@ -77,8 +78,8 @@ export default function BrandEditPage() {
         imageError={imageError}
         galleryId={galleryId}
         selectGalleryImage={selectGalleryImage}
-        setImageUrl={setImageUrl}
         setGalleryId={setGalleryId}
+        setGalleryImage={setGalleryImage}
       />
     </Provider>
   );

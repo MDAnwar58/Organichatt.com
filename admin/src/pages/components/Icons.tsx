@@ -13,63 +13,70 @@ import { FaRegImage } from "react-icons/fa6";
 import { MdRestore } from "react-icons/md";
 import { FaArrowUpShortWide } from "react-icons/fa6";
 import { FaArrowDownWideShort } from "react-icons/fa6";
+import { HiCollection } from "react-icons/hi";
+import { CiSquarePlus } from "react-icons/ci";
+import { CiSquareCheck } from "react-icons/ci";
+import { FaPlus } from "react-icons/fa6";
+import { FaStarOfLife } from "react-icons/fa";
 
-const DarkModeIcon = ({ className }: { className?: any }) => {
+export const DarkModeIcon = ({ className }: { className?: any }) => {
   return <MdDarkMode className={className} />;
 };
-const LightModeIcon = ({ className }: { className?: any }) => {
+export const LightModeIcon = ({ className }: { className?: any }) => {
   return <MdOutlineLightMode className={className} />;
 };
-const DotsThreeOutlineIcon = ({ className }: { className?: any }) => {
+export const DotsThreeOutlineIcon = ({ className }: { className?: any }) => {
   return <PiDotsThreeOutlineVerticalBold className={className} />;
 };
-const FaDownloadIcon = ({ className }: { className?: any }) => {
+export const FaDownloadIcon = ({ className }: { className?: any }) => {
   return <FaCloudDownloadAlt className={className} />;
 };
-const HiOutlineInformationCircleIcon = ({ className }: { className?: any }) => {
+export const HiOutlineInformationCircleIcon = ({
+  className,
+}: {
+  className?: any;
+}) => {
   return <IoInformationCircleOutline className={className} />;
 };
-const MdDeleteIcon = ({ className }: { className?: any }) => {
+export const MdDeleteIcon = ({ className }: { className?: any }) => {
   return <MdDelete className={className} />;
 };
-const FilterIcon = ({ className }: { className?: any }) => {
+export const FilterIcon = ({ className }: { className?: any }) => {
   return <CiFilter className={className} />;
 };
-const CheckIcon = ({ className }: { className?: any }) => {
+export const CheckIcon = ({ className }: { className?: any }) => {
   return <FaCheck className={className} />;
 };
-const RemoveIcon = ({ className }: { className?: any }) => {
+export const RemoveIcon = ({ className }: { className?: any }) => {
   return <RxCross2 className={className} />;
 };
-const CopyIcon = ({ className }: { className?: any }) => {
+export const CopyIcon = ({ className }: { className?: any }) => {
   return <IoIosCopy className={className} />;
 };
-const RegImage = ({ className }: { className?: any }) => {
+export const RegImage = ({ className }: { className?: any }) => {
   return <FaRegImage className={className} />;
 };
-const RestoreIcon = ({ className }: { className?: any }) => {
+export const RestoreIcon = ({ className }: { className?: any }) => {
   return <MdRestore className={className} />;
 };
-const UpArrowIcon = ({ className }: { className?: any }) => {
+export const UpArrowIcon = ({ className }: { className?: any }) => {
   return <FaArrowUpShortWide className={className} />;
 };
-const DownArrowIcon = ({ className }: { className?: any }) => {
+export const DownArrowIcon = ({ className }: { className?: any }) => {
   return <FaArrowDownWideShort className={className} />;
 };
-
-export {
-  DarkModeIcon,
-  LightModeIcon,
-  DotsThreeOutlineIcon,
-  FaDownloadIcon,
-  HiOutlineInformationCircleIcon,
-  MdDeleteIcon,
-  FilterIcon,
-  CheckIcon,
-  RemoveIcon,
-  CopyIcon,
-  RegImage,
-  RestoreIcon,
-  UpArrowIcon,
-  DownArrowIcon,
+export const CollectionIcon = ({ className }: { className?: any }) => {
+  return <HiCollection className={className} />;
+};
+export const SquarePlusIcon = ({ className }: { className?: any }) => {
+  return <CiSquarePlus className={className} />;
+};
+export const SquareCheckIcon = ({ className }: { className?: any }) => {
+  return <CiSquareCheck className={className} />;
+};
+export const PlusIcon = ({ className }: { className?: any }) => {
+  return <FaPlus className={className} />;
+};
+export const StarIcon = ({ className }: { className?: any }) => {
+  return <FaStarOfLife className={className} />;
 };

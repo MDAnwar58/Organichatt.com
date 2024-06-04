@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->string('name', 50);
             $table->string('slug', 50);
             $table->string('image_url')->nullable();
+            $table->string('icon_image_url')->nullable();
+            $table->string('banner_url')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreign('brand_id')->references('id')->on('brands')->cascadeOnDelete()->cascadeOnUpdate();

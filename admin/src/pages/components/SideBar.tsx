@@ -52,6 +52,41 @@ export default function SideBar({
               </Link>
             </li>
             <li>
+              <Link
+                to="/collections"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white 
+                ${pathname === "/collections" ? NavLinkActive : NavLink}
+                ${pathname === "/collection-create" ? NavLinkActive : NavLink}
+                ${
+                  pathname === `/collection-edit/${id}`
+                    ? NavLinkActive
+                    : NavLink
+                }
+                 group`}
+              >
+                <svg
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 21"
+                  className={`w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 
+                  ${pathname === "/collections" ? SvgActive : Svg}
+                  ${pathname === "/collection-create" ? SvgActive : Svg}
+                  ${pathname === `/collection-edit/${id}` ? SvgActive : Svg}
+                  `}
+                >
+                  <path
+                    d="m2.394 15.759s7.554 4.246 9.09 5.109c.165.093.333.132.492.132.178 0 .344-.049.484-.127 1.546-.863 9.155-5.113 9.155-5.113.246-.138.385-.393.385-.656 0-.566-.614-.934-1.116-.654 0 0-7.052 3.958-8.539 4.77-.211.115-.444.161-.722.006-1.649-.928-8.494-4.775-8.494-4.775-.502-.282-1.117.085-1.117.653 0 .262.137.517.382.655zm0-3.113s7.554 4.246 9.09 5.109c.165.093.333.132.492.132.178 0 .344-.049.484-.127 1.546-.863 9.155-5.113 9.155-5.113.246-.138.385-.393.385-.656 0-.566-.614-.934-1.116-.654 0 0-7.052 3.958-8.539 4.77-.211.115-.444.161-.722.006-1.649-.928-8.494-4.775-8.494-4.775-.502-.282-1.117.085-1.117.653 0 .262.137.517.382.655zm10.271-9.455c-.246-.128-.471-.191-.692-.191-.223 0-.443.065-.675.191l-8.884 5.005c-.276.183-.414.444-.414.698 0 .256.139.505.414.664l8.884 5.006c.221.133.447.203.678.203.223 0 .452-.065.689-.203l8.884-5.006c.295-.166.451-.421.451-.68 0-.25-.145-.503-.451-.682z"
+                    fillRule="nonzero"
+                  />
+                </svg>
+
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  Collection
+                </span>
+              </Link>
+            </li>
+            <li>
               <EcommerceDropDownBtn
                 ecommerceBtnDropdownHandle={ecommerceBtnDropdownHandle}
                 ecommerceDropDownBtn={ecommerceDropDownBtn}
@@ -73,23 +108,6 @@ export default function SideBar({
                 SvgActive={SvgActive}
                 Svg={Svg}
               />
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                {/* <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 18 18"
-                >
-                  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
-                </svg> */}
-                <span className="flex-1 ms-3 whitespace-nowrap">Kanban</span>
-              </a>
             </li>
             <li>
               <a

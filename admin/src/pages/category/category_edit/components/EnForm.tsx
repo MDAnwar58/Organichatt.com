@@ -5,8 +5,9 @@ import ImageInputFile from "../../../components/ImageInputFile";
 
 export default function EnForm({
   category,
-  setOpenCreateModal,
-  ImageUrl,
+  openGalleryModalHandler,
+  galleryImage,
+  setGalleryImage,
   removeFile,
   name,
   image_url,
@@ -15,8 +16,9 @@ export default function EnForm({
   errors,
 }: {
   category?: any;
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
+  setGalleryImage?: any;
   removeFile?: any;
   name?: any;
   image_url?: any;
@@ -42,10 +44,10 @@ export default function EnForm({
           title=" and choose file"
           format="PNG, JPG or GIF"
           maxSize="20MB"
-          imageUrl={ImageUrl}
-          inputValue={ImageUrl}
-          onClick={() => setOpenCreateModal(true)}
-          imgClassName="h-40"
+          galleryImage={galleryImage}
+          inputValue={galleryImage.url}
+          onClick={() => openGalleryModalHandler("image")}
+          imgClassName="h-40 rounded-lg"
           removeFile={removeFile}
           inputRef={image_url}
         />
@@ -58,7 +60,7 @@ export default function EnForm({
       <div className=" text-end">
         <button
           type="button"
-          onClick={() => updateBrand(category.id)}
+          onClick={() => updateBrand(category.id, setGalleryImage)}
           className="text-md font-semibold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 uppercase"
         >
           update

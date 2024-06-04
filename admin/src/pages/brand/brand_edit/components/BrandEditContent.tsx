@@ -9,14 +9,14 @@ import { useParams } from "react-router-dom";
 import store from "../../../apiCalling/store";
 
 export default function BrandEditContent({
-  setOpenCreateModal,
-  ImageUrl,
-  setImageUrl,
+  openGalleryModalHandler,
+  galleryImage,
+  setGalleryImage,
   removeFile,
 }: {
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
-  setImageUrl?: any;
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
+  setGalleryImage?: any;
   removeFile?: any;
 }) {
   const { getBrand, name, image_url, form, updateBrand } =
@@ -26,7 +26,7 @@ export default function BrandEditContent({
   const [language, setLanguage] = useState("english");
 
   useEffect(() => {
-    getBrand(id, setImageUrl);
+    getBrand(id, setGalleryImage);
   }, []);
 
   const brand = useSelector((state) => state.brand);
@@ -40,8 +40,8 @@ export default function BrandEditContent({
         {language === "english" && (
           <EnForm
             brand={brand}
-            setOpenCreateModal={setOpenCreateModal}
-            ImageUrl={ImageUrl}
+            openGalleryModalHandler={openGalleryModalHandler}
+            galleryImage={galleryImage}
             removeFile={removeFile}
             name={name}
             image_url={image_url}

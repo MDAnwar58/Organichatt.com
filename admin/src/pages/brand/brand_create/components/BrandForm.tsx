@@ -8,12 +8,12 @@ import useBrandContext from "../../context/BrandContext";
 import useBrandCreateContext from "../context/BrandCreateContext";
 
 export default function BrandForm({
-  setOpenCreateModal,
-  ImageUrl,
+  openGalleryModalHandler,
+  galleryImage,
   removeFile,
 }: {
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
   removeFile?: any;
 }) {
   const { name, image_url, form, addGallery } = useBrandCreateContext();
@@ -38,10 +38,10 @@ export default function BrandForm({
             title=" and choose file"
             format="PNG, JPG or GIF"
             maxSize="20MB"
-            imageUrl={ImageUrl}
-            imgClassName="h-40"
-            onClick={() => setOpenCreateModal(true)}
-            inputValue={ImageUrl}
+            galleryImage={galleryImage}
+            imgClassName="h-40 rounded-lg"
+            onClick={() => openGalleryModalHandler("image")}
+            inputValue={galleryImage.url}
             removeFile={removeFile}
             inputRef={image_url}
           />

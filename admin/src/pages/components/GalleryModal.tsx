@@ -5,35 +5,9 @@ import TabNav from "./TabNav";
 import ModalClose from "./ModalClose";
 import GalleryModalFooter from "./GalleryModalFooter";
 
-export default function GalleryModal({
-  openCreateModal,
-  setOpenCreateModal,
-  galleryCategoryId,
-  itemHandle,
-  galleries,
-  searchHandler,
-  paginate,
-  page,
-  totalPage,
-  imagePreviewUrl,
-  imageHandle,
-  removeImage,
-  image_name,
-  image,
-  addGallery,
-  galleryAddForm,
-  tab,
-  setTab,
-  imageNameError,
-  setImageNameError,
-  imageError,
-  galleryId,
-  selectGalleryImage,
-  setGalleryId,
-  setImageUrl,
-}: {
-  openCreateModal?: any;
-  setOpenCreateModal?: any;
+interface Props {
+  openGalleryModal?: any;
+  setOpenGalleryModal?: any;
   galleryCategoryId?: any;
   itemHandle?: any;
   galleries?: any;
@@ -56,19 +30,50 @@ export default function GalleryModal({
   galleryId?: any;
   selectGalleryImage?: any;
   setGalleryId?: any;
-  setImageUrl?: any;
-}) {
+  setGalleryImage?: any;
+}
+
+export default function GalleryModal({
+  openGalleryModal,
+  setOpenGalleryModal,
+  galleryCategoryId,
+  itemHandle,
+  galleries,
+  searchHandler,
+  paginate,
+  page,
+  totalPage,
+  imagePreviewUrl,
+  imageHandle,
+  removeImage,
+  image_name,
+  image,
+  addGallery,
+  galleryAddForm,
+  tab,
+  setTab,
+  imageNameError,
+  setImageNameError,
+  imageError,
+  galleryId,
+  selectGalleryImage,
+  setGalleryId,
+  setGalleryImage,
+}: Props) {
   const modalCloseHandle = () => {
-    setOpenCreateModal(false);
+    setOpenGalleryModal(false);
     setGalleryId(null);
-    setImageUrl("");
+    setGalleryImage({
+      imageType: "",
+      url: "",
+    });
   };
   return (
     <div
       tabIndex={-1}
       aria-hidden="true"
       className={`${
-        openCreateModal === false && "hidden"
+        openGalleryModal === false && "hidden"
       } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center md:inset-0`}
     >
       <div className="relative w-full h-[100vh]">
@@ -110,7 +115,7 @@ export default function GalleryModal({
           </div>
           {/* Modal footer */}
           <GalleryModalFooter
-            setOpenCreateModal={setOpenCreateModal}
+            setOpenGalleryModal={setOpenGalleryModal}
             modalCloseHandle={modalCloseHandle}
             paginate={paginate}
             page={page}

@@ -9,7 +9,8 @@ import store from "../../../apiCalling/store";
 import useWeightEditContext from "../context/WeightEditContext";
 
 export default function WeightEditContent() {
-  const { getWeight, number, form, updateHandle } = useWeightEditContext();
+  const { getWeight, number, Weight, form, updateHandle } =
+    useWeightEditContext();
 
   const { id } = useParams();
   const [language, setLanguage] = useState("english");
@@ -30,6 +31,7 @@ export default function WeightEditContent() {
           <EnForm
             weight={weight}
             number={number}
+            Weight={Weight}
             form={form}
             updateHandle={updateHandle}
             errors={errors}

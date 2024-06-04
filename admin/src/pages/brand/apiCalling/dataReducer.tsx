@@ -1,4 +1,4 @@
-import { GET_DATAS, GET_EDIT_DATA, GET_UPDATE_ERRORS } from "./actionType";
+import { GET_DATAS, GET_EDIT_DATA, GET_ERRORS } from "./actionType";
 
 const initialState = {
   brands: [],
@@ -18,7 +18,7 @@ const dataReducer = (state = initialState, action) => {
         ...state,
         brand: action.payload,
       };
-    case GET_UPDATE_ERRORS:
+    case GET_ERRORS:
       return {
         ...state,
         errors: action.payload,

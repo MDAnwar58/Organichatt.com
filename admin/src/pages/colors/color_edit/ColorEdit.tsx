@@ -1,12 +1,12 @@
 import React from "react";
 import { Provider } from "react-redux";
-import store from "../../apiCalling/store";
-import ColorEditPage from "./components/ColorEditPage";
+import store from "../apiCalling/store";
+import ColorEditContent from "./components/ColorEditContent";
 
 export default function ColorEdit() {
   return (
     <Provider store={store}>
-      <ColorEditPage />
+      <ColorEditContent />
     </Provider>
   );
 }

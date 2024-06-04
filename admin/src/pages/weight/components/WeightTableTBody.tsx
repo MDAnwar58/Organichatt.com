@@ -29,7 +29,7 @@ export default function WeightTableTBody({
               scope="row"
               className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              {weight.number} kg
+              {weight.number} {weight.weight}
             </td>
             <td className="px-6 py-4">
               <Link

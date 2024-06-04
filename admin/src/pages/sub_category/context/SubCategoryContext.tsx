@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
+  bannerImageStoreOrUpdate,
   dataDelete,
   dataSorting,
   getDatas,
@@ -18,6 +19,8 @@ export default function useSubCategoryContext() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("desc");
   const [sortByDir, setSortByDir] = useState("");
+
+  const banner_url = useRef();
 
   const dispatch = useDispatch();
 
@@ -183,6 +186,54 @@ export default function useSubCategoryContext() {
     }
   };
 
+  const addBanner = (id, setGalleryImage, setGalleryId) => {
+    const payload = {
+      banner_url: banner_url.current.value,
+    };
+    dispatch(
+      bannerImageStoreOrUpdate(
+        id,
+        payload,
+        setGalleryImage,
+        setGalleryId,
+        page,
+        limit,
+        setTotalPage,
+        setLoading,
+        selectItemId,
+        search,
+        setPage,
+        setLength,
+        sortByDir,
+        sortBy
+      )
+    );
+  };
+
+  const removeBanner = (id, setGalleryImage, setGalleryId) => {
+    const payload = {
+      banner_url: "",
+    };
+    dispatch(
+      bannerImageStoreOrUpdate(
+        id,
+        payload,
+        setGalleryImage,
+        setGalleryId,
+        page,
+        limit,
+        setTotalPage,
+        setLoading,
+        selectItemId,
+        search,
+        setPage,
+        setLength,
+        sortByDir,
+        sortBy
+      )
+    );
+  };
+
   return {
     getSubCategories,
     page,
@@ -200,5 +251,8 @@ export default function useSubCategoryContext() {
     sortBy,
     sortByHandle,
     sortByDir,
+    banner_url,
+    addBanner,
+    removeBanner,
   };
 }

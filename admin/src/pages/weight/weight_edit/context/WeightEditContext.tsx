@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function useWeightEditContext() {
   const number = useRef();
+  const Weight = useRef();
   const form = useRef();
 
   const dispatch = useDispatch();
@@ -16,12 +17,14 @@ export default function useWeightEditContext() {
   const updateHandle = (id) => {
     const payload = {
       number: number.current.value,
+      weight: Weight.current.value,
     };
     dispatch(updateData(id, payload, form, navigate));
   };
   return {
     getWeight,
     number,
+    Weight,
     form,
     updateHandle,
   };

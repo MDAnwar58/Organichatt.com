@@ -2,15 +2,15 @@ import React, { Fragment, useEffect } from "react";
 import GalleryModal from "../../../components/GalleryModal";
 import useGalleryContext from "../../../common_context/GalleryContext";
 import { Provider, useSelector } from "react-redux";
-import store from "../apiCalling/store";
+import store from "../../apiCalling/store";
 import CategoryForm from "./CategoryForm";
 
 export default function CategoryCreateContent() {
   const {
     getGalleryCategories,
     getGalleries,
-    openCreateModal,
-    setOpenCreateModal,
+    openGalleryModal,
+    setOpenGalleryModal,
     galleryCategoryId,
     itemHandle,
     searchHandler,
@@ -31,9 +31,10 @@ export default function CategoryCreateContent() {
     imageError,
     galleryId,
     setGalleryId,
-    ImageUrl,
-    setImageUrl,
+    galleryImage,
+    setGalleryImage,
     selectGalleryImage,
+    openGalleryModalHandler,
     removeFile,
   } = useGalleryContext();
 
@@ -48,15 +49,15 @@ export default function CategoryCreateContent() {
     <Fragment>
       <Provider store={store}>
         <CategoryForm
-          setOpenCreateModal={setOpenCreateModal}
-          ImageUrl={ImageUrl}
+          openGalleryModalHandler={openGalleryModalHandler}
+          galleryImage={galleryImage}
           removeFile={removeFile}
         />
       </Provider>
 
       <GalleryModal
-        openCreateModal={openCreateModal}
-        setOpenCreateModal={setOpenCreateModal}
+        openGalleryModal={openGalleryModal}
+        setOpenGalleryModal={setOpenGalleryModal}
         galleryCategoryId={galleryCategoryId}
         itemHandle={itemHandle}
         galleries={galleries}
@@ -78,8 +79,8 @@ export default function CategoryCreateContent() {
         imageError={imageError}
         galleryId={galleryId}
         selectGalleryImage={selectGalleryImage}
-        setImageUrl={setImageUrl}
         setGalleryId={setGalleryId}
+        setGalleryImage={setGalleryImage}
       />
     </Fragment>
   );

@@ -9,8 +9,8 @@ export default function SubCategoryEditPage() {
   const {
     getGalleryCategories,
     getGalleries,
-    openCreateModal,
-    setOpenCreateModal,
+    openGalleryModal,
+    setOpenGalleryModal,
     galleryCategoryId,
     itemHandle,
     searchHandler,
@@ -31,9 +31,10 @@ export default function SubCategoryEditPage() {
     imageError,
     galleryId,
     setGalleryId,
-    ImageUrl,
-    setImageUrl,
+    galleryImage,
+    setGalleryImage,
     selectGalleryImage,
+    openGalleryModalHandler,
     removeFile,
   } = useGalleryContext();
 
@@ -47,15 +48,15 @@ export default function SubCategoryEditPage() {
   return (
     <Provider store={store}>
       <SubCategoryEditContent
-        setOpenCreateModal={setOpenCreateModal}
-        ImageUrl={ImageUrl}
-        setImageUrl={setImageUrl}
+        openGalleryModalHandler={openGalleryModalHandler}
+        galleryImage={galleryImage}
+        setGalleryImage={setGalleryImage}
         removeFile={removeFile}
       />
 
       <GalleryModal
-        openCreateModal={openCreateModal}
-        setOpenCreateModal={setOpenCreateModal}
+        openGalleryModal={openGalleryModal}
+        setOpenGalleryModal={setOpenGalleryModal}
         galleryCategoryId={galleryCategoryId}
         itemHandle={itemHandle}
         galleries={galleries}
@@ -77,8 +78,8 @@ export default function SubCategoryEditPage() {
         imageError={imageError}
         galleryId={galleryId}
         selectGalleryImage={selectGalleryImage}
-        setImageUrl={setImageUrl}
         setGalleryId={setGalleryId}
+        setGalleryImage={setGalleryImage}
       />
     </Provider>
   );

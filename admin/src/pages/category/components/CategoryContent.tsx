@@ -6,14 +6,75 @@ import { useSelector } from "react-redux";
 import Column from "../../components/Column";
 import useCategoryContext from "../context/CategoryContext";
 import CategoryTableTBody from "./CategoryTableTBody";
+import useGalleryContext from "../../common_context/GalleryContext";
+import GalleryModal from "../../components/GalleryModal";
 
-export default function CategoryContent() {
+interface Props {
+  openGalleryModal?: any;
+  setOpenGalleryModal?: any;
+  galleryCategoryId?: any;
+  ItemHandle?: any;
+  searchHandler?: any;
+  paginate?: any;
+  Page?: any;
+  TotalPage?: any;
+  imagePreviewUrl?: any;
+  imageHandle?: any;
+  removeImage?: any;
+  image_name?: any;
+  image?: any;
+  addGallery?: any;
+  galleryAddForm?: any;
+  tab?: any;
+  setTab?: any;
+  imageNameError?: any;
+  setImageNameError?: any;
+  imageError?: any;
+  galleryId?: any;
+  setGalleryId?: any;
+  galleryImage?: any;
+  setGalleryImage?: any;
+  selectGalleryImage?: any;
+  removeFile?: any;
+  galleries?: any;
+  openGalleryModalHandler?: any;
+}
+
+export default function CategoryContent({
+  openGalleryModal,
+  setOpenGalleryModal,
+  galleryCategoryId,
+  ItemHandle,
+  searchHandler,
+  paginate,
+  Page,
+  TotalPage,
+  imagePreviewUrl,
+  imageHandle,
+  removeImage,
+  image_name,
+  image,
+  addGallery,
+  galleryAddForm,
+  tab,
+  setTab,
+  imageNameError,
+  setImageNameError,
+  imageError,
+  galleryId,
+  setGalleryId,
+  galleryImage,
+  setGalleryImage,
+  selectGalleryImage,
+  removeFile,
+  galleries,
+  openGalleryModalHandler,
+}: Props) {
   const {
     getCategories,
     page,
     limit,
     totalPage,
-    length,
     onPageHabdle,
     pageItemLimitHandler,
     selectItemId,
@@ -22,6 +83,12 @@ export default function CategoryContent() {
     searchHandle,
     statusHandle,
     deleteHandle,
+    icon_image_url,
+    banner_url,
+    addBanner,
+    removeBanner,
+    addIcon,
+    removeIcon,
   } = useCategoryContext();
 
   useEffect(() => {
@@ -46,7 +113,9 @@ export default function CategoryContent() {
     <Column name="#" />,
     <Column name="Brand Name" />,
     <Column name="Slug" />,
+    <Column name="Icon" />,
     <Column name="Image" />,
+    <Column name="Banner" />,
     <Column name="Status" />,
     <Column name="Action" />,
   ];
@@ -54,16 +123,25 @@ export default function CategoryContent() {
   const tbody = (
     <CategoryTableTBody
       categories={categories}
-      length={length}
       loading={loading}
       statusHandle={statusHandle}
       deleteHandle={deleteHandle}
       page={page}
       limit={limit}
+      galleryImage={galleryImage}
+      setGalleryImage={setGalleryImage}
+      removeFile={removeFile}
+      icon_image_url={icon_image_url}
+      banner_url={banner_url}
+      addBanner={addBanner}
+      removeBanner={removeBanner}
+      addIcon={addIcon}
+      removeIcon={removeIcon}
+      setGalleryId={setGalleryId}
+      openGalleryModalHandler={openGalleryModalHandler}
     />
   );
   const limitSelection = <LimitSelection onChange={pageItemLimitHandler} />;
-
   return (
     <Fragment>
       <TableHeader
@@ -87,6 +165,34 @@ export default function CategoryContent() {
         selectItemId={selectItemId}
         itemHandle={itemHandle}
         onChangeSearch={searchHandle}
+      />
+
+      <GalleryModal
+        openGalleryModal={openGalleryModal}
+        setOpenGalleryModal={setOpenGalleryModal}
+        galleryCategoryId={galleryCategoryId}
+        itemHandle={ItemHandle}
+        galleries={galleries}
+        searchHandler={searchHandler}
+        paginate={paginate}
+        page={Page}
+        totalPage={TotalPage}
+        imagePreviewUrl={imagePreviewUrl}
+        imageHandle={imageHandle}
+        removeImage={removeImage}
+        image_name={image_name}
+        image={image}
+        addGallery={addGallery}
+        galleryAddForm={galleryAddForm}
+        tab={tab}
+        setTab={setTab}
+        imageNameError={imageNameError}
+        setImageNameError={setImageNameError}
+        imageError={imageError}
+        galleryId={galleryId}
+        selectGalleryImage={selectGalleryImage}
+        setGalleryId={setGalleryId}
+        setGalleryImage={setGalleryImage}
       />
     </Fragment>
   );

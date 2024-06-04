@@ -6,8 +6,69 @@ import { useSelector } from "react-redux";
 import Column from "../../components/Column";
 import SubCategoryTableTBody from "./SubCategoryTableTBody";
 import useSubCategoryContext from "../context/SubCategoryContext";
+import GalleryModal from "../../components/GalleryModal";
 
-export default function SubCategoryContent() {
+interface Props {
+  openGalleryModal?: any;
+  setOpenGalleryModal?: any;
+  galleryCategoryId?: any;
+  ItemHandle?: any;
+  searchHandler?: any;
+  paginate?: any;
+  Page?: any;
+  TotalPage?: any;
+  imagePreviewUrl?: any;
+  imageHandle?: any;
+  removeImage?: any;
+  image_name?: any;
+  image?: any;
+  addGallery?: any;
+  galleryAddForm?: any;
+  tab?: any;
+  setTab?: any;
+  imageNameError?: any;
+  setImageNameError?: any;
+  imageError?: any;
+  galleryId?: any;
+  setGalleryId?: any;
+  galleryImage?: any;
+  setGalleryImage?: any;
+  selectGalleryImage?: any;
+  removeFile?: any;
+  galleries?: any;
+  openGalleryModalHandler?: any;
+}
+
+export default function SubCategoryContent({
+  openGalleryModal,
+  setOpenGalleryModal,
+  galleryCategoryId,
+  ItemHandle,
+  searchHandler,
+  paginate,
+  Page,
+  TotalPage,
+  imagePreviewUrl,
+  imageHandle,
+  removeImage,
+  image_name,
+  image,
+  addGallery,
+  galleryAddForm,
+  tab,
+  setTab,
+  imageNameError,
+  setImageNameError,
+  imageError,
+  galleryId,
+  setGalleryId,
+  galleryImage,
+  setGalleryImage,
+  selectGalleryImage,
+  removeFile,
+  galleries,
+  openGalleryModalHandler,
+}: Props) {
   const {
     getSubCategories,
     page,
@@ -25,6 +86,9 @@ export default function SubCategoryContent() {
     sortBy,
     sortByHandle,
     sortByDir,
+    banner_url,
+    addBanner,
+    removeBanner,
   } = useSubCategoryContext();
 
   useEffect(() => {
@@ -46,11 +110,6 @@ export default function SubCategoryContent() {
 
   const checkbox = <input type="checkbox" />;
   const theadColumnName = [
-    // ${
-    //     sortByDir === "" || (sortByDir === "id" && sortBy === "desc")
-    //       ? "text-gray-950"
-    //       : "text-gray-300"
-    //   }
     <Column
       name="#"
       icon={true}
@@ -69,6 +128,7 @@ export default function SubCategoryContent() {
     />,
     <Column name="Slug" />,
     <Column name="Image" />,
+    <Column name="Banner" />,
     <Column name="Status" />,
     <Column name="Action" />,
   ];
@@ -83,6 +143,14 @@ export default function SubCategoryContent() {
       page={page}
       limit={limit}
       sortBy={sortBy}
+      galleryImage={galleryImage}
+      setGalleryImage={setGalleryImage}
+      setGalleryId={setGalleryId}
+      removeFile={removeFile}
+      openGalleryModalHandler={openGalleryModalHandler}
+      banner_url={banner_url}
+      addBanner={addBanner}
+      removeBanner={removeBanner}
     />
   );
   const limitSelection = <LimitSelection onChange={pageItemLimitHandler} />;
@@ -110,6 +178,34 @@ export default function SubCategoryContent() {
         selectItemId={selectItemId}
         itemHandle={itemHandle}
         onChangeSearch={searchHandle}
+      />
+
+      <GalleryModal
+        openGalleryModal={openGalleryModal}
+        setOpenGalleryModal={setOpenGalleryModal}
+        galleryCategoryId={galleryCategoryId}
+        itemHandle={ItemHandle}
+        galleries={galleries}
+        searchHandler={searchHandler}
+        paginate={paginate}
+        page={Page}
+        totalPage={TotalPage}
+        imagePreviewUrl={imagePreviewUrl}
+        imageHandle={imageHandle}
+        removeImage={removeImage}
+        image_name={image_name}
+        image={image}
+        addGallery={addGallery}
+        galleryAddForm={galleryAddForm}
+        tab={tab}
+        setTab={setTab}
+        imageNameError={imageNameError}
+        setImageNameError={setImageNameError}
+        imageError={imageError}
+        galleryId={galleryId}
+        selectGalleryImage={selectGalleryImage}
+        setGalleryId={setGalleryId}
+        setGalleryImage={setGalleryImage}
       />
     </Fragment>
   );

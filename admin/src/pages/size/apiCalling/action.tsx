@@ -2,6 +2,19 @@ import axiosClient from "../../../axios-client";
 import { successMsg } from "../../../notify";
 import { GET_DATAS, GET_EDIT_DATA, GET_UPDATE_ERRORS } from "./actionType";
 
+const addData = (payload, navigate) => async (dispatch) => {
+  try {
+    const response = await axiosClient.post(`/size-store`, payload);
+    if (response.data.status === "success") {
+      successMsg(response.data.msg);
+      dispatch(getErrors([]));
+      navigate("/sizes");
+    }
+  } catch (error) {
+    dispatch(getErrors(error.response.data.errors));
+  }
+};
+
 const getDatas =
   (page, limit, setTotalPage, setLoading, search, setPage) =>
   async (dispatch) => {
@@ -28,6 +41,7 @@ const getDatas =
       type: GET_EDIT_DATA,
       payload: {},
     });
+    dispatch(getErrors([]));
   };
 
 const getItems = (page, limit, items) => (dispatch) => {
@@ -89,4 +103,4 @@ const dataDelete =
     }
   };
 
-export { getDatas, getData, updateData, dataDelete };
+export { addData, getDatas, getData, updateData, dataDelete };

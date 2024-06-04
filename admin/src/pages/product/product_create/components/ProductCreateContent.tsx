@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import GalleryModal from "../../../components/GalleryModal";
 import useGalleryContext from "../../../common_context/GalleryContext";
 import { Provider, useSelector } from "react-redux";
-import store from "../apiCalling/store";
+import store from "../../apiCalling/store";
 import ProductForm from "./ProductForm";
 
 interface Props {
@@ -13,8 +13,8 @@ export default function ProductCreateContent({ sideBar }: Props) {
   const {
     getGalleryCategories,
     getGalleries,
-    openCreateModal,
-    setOpenCreateModal,
+    openGalleryModal,
+    setOpenGalleryModal,
     galleryCategoryId,
     itemHandle,
     searchHandler,
@@ -35,9 +35,10 @@ export default function ProductCreateContent({ sideBar }: Props) {
     imageError,
     galleryId,
     setGalleryId,
-    ImageUrl,
-    setImageUrl,
+    galleryImage,
+    setGalleryImage,
     selectGalleryImage,
+    openGalleryModalHandler,
     removeFile,
   } = useGalleryContext();
 
@@ -52,16 +53,16 @@ export default function ProductCreateContent({ sideBar }: Props) {
     <Fragment>
       <Provider store={store}>
         <ProductForm
-          setOpenCreateModal={setOpenCreateModal}
-          ImageUrl={ImageUrl}
+          openGalleryModalHandler={openGalleryModalHandler}
+          galleryImage={galleryImage}
           removeFile={removeFile}
           sideBar={sideBar}
         />
       </Provider>
 
       <GalleryModal
-        openCreateModal={openCreateModal}
-        setOpenCreateModal={setOpenCreateModal}
+        openGalleryModal={openGalleryModal}
+        setOpenGalleryModal={setOpenGalleryModal}
         galleryCategoryId={galleryCategoryId}
         itemHandle={itemHandle}
         galleries={galleries}
@@ -83,8 +84,8 @@ export default function ProductCreateContent({ sideBar }: Props) {
         imageError={imageError}
         galleryId={galleryId}
         selectGalleryImage={selectGalleryImage}
-        setImageUrl={setImageUrl}
         setGalleryId={setGalleryId}
+        setGalleryImage={setGalleryImage}
       />
     </Fragment>
   );

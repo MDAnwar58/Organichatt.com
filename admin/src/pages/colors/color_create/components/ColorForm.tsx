@@ -4,9 +4,18 @@ import Form from "../../../components/Form";
 import Input from "../../../components/Input";
 import { useSelector } from "react-redux";
 import useColorCreateContext from "../context/ColorCreateContext";
+import { HexColorPicker } from "react-colorful";
+import namer from "color-namer";
+import "../../../../assets/css/react-colorful.css";
 
 export default function ColorForm() {
-  const { name, color_code, form, addHandle } = useColorCreateContext();
+  const { name, color, setColor, form, addHandle } = useColorCreateContext();
+  // Use color-namer to get the color name
+  let colorName;
+  try {
+    const result = namer(color);
+    colorName = result.basic[0].name;
+  } catch (error) {}
 
   const errors = useSelector((state) => state.errors);
   return (
@@ -17,19 +26,19 @@ export default function ColorForm() {
           <Input
             type="text"
             inputRef={name}
+            Value={colorName}
             className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Color name"
             error={errors.name}
           />
         </div>
         <div className="mb-3">
-          <Input
-            type="color"
-            inputRef={color_code}
-            className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-20 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Color code"
-            error={errors.color_code}
-          />
+          <div className="color-picker">
+            <HexColorPicker color={color} onChange={setColor} />
+            {errors.color_code && (
+              <small className=" text-red-500 px-3">{errors.color_code}</small>
+            )}
+          </div>
         </div>
 
         <div className=" text-end">

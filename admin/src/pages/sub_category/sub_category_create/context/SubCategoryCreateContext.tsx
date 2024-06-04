@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addData, getCategoryDatas } from "../apiCalling/action";
+import { addData, getCategoryDatas } from "../../apiCalling/action";
 import { useNavigate } from "react-router-dom";
 
 export default function useSubCategoryCreateContext() {

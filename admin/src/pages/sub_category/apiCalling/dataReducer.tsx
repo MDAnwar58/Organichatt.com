@@ -2,7 +2,7 @@ import {
   GET_DATAS,
   GET_CATEGORIES,
   GET_EDIT_DATA,
-  GET_UPDATE_ERRORS,
+  GET_SUBMIT_ERRORS,
 } from "./actionType";
 
 const initialState = {
@@ -29,7 +29,7 @@ const dataReducer = (state = initialState, action) => {
         ...state,
         categories: action.payload,
       };
-    case GET_UPDATE_ERRORS:
+    case GET_SUBMIT_ERRORS:
       return {
         ...state,
         errors: action.payload,

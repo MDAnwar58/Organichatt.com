@@ -9,14 +9,14 @@ import store from "../../../apiCalling/store";
 import useCategoryEditContext from "../context/CategoryEditContext";
 
 export default function CategoryEditContent({
-  setOpenCreateModal,
-  ImageUrl,
-  setImageUrl,
+  openGalleryModalHandler,
+  galleryImage,
+  setGalleryImage,
   removeFile,
 }: {
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
-  setImageUrl?: any;
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
+  setGalleryImage?: any;
   removeFile?: any;
 }) {
   const { getBrand, name, image_url, form, updateBrand } =
@@ -26,7 +26,7 @@ export default function CategoryEditContent({
   const [language, setLanguage] = useState("english");
 
   useEffect(() => {
-    getBrand(id, setImageUrl);
+    getBrand(id, setGalleryImage);
   }, []);
 
   const category = useSelector((state) => state.category);
@@ -40,8 +40,9 @@ export default function CategoryEditContent({
         {language === "english" && (
           <EnForm
             category={category}
-            setOpenCreateModal={setOpenCreateModal}
-            ImageUrl={ImageUrl}
+            openGalleryModalHandler={openGalleryModalHandler}
+            galleryImage={galleryImage}
+            setGalleryImage={setGalleryImage}
             removeFile={removeFile}
             name={name}
             image_url={image_url}

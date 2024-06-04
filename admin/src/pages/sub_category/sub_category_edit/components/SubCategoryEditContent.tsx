@@ -9,14 +9,14 @@ import store from "../../../apiCalling/store";
 import useSubCategoryEditContext from "../context/SubCategoryEditContext";
 
 export default function SubCategoryEditContent({
-  setOpenCreateModal,
-  ImageUrl,
-  setImageUrl,
+  openGalleryModalHandler,
+  galleryImage,
+  setGalleryImage,
   removeFile,
 }: {
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
-  setImageUrl?: any;
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
+  setGalleryImage?: any;
   removeFile?: any;
 }) {
   const {
@@ -36,7 +36,7 @@ export default function SubCategoryEditContent({
 
   useEffect(() => {
     getCategories();
-    getSubCategory(id, setImageUrl);
+    getSubCategory(id, setGalleryImage);
   }, []);
 
   const sub_category = useSelector((state) => state.sub_category);
@@ -52,8 +52,8 @@ export default function SubCategoryEditContent({
           <EnForm
             categories={categories}
             sub_category={sub_category}
-            setOpenCreateModal={setOpenCreateModal}
-            ImageUrl={ImageUrl}
+            openGalleryModalHandler={openGalleryModalHandler}
+            galleryImage={galleryImage}
             removeFile={removeFile}
             name={name}
             category_id={category_id}

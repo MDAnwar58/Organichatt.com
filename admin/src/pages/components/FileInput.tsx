@@ -32,7 +32,7 @@ export default function FileInput({
               <img
                 src={imagePreviewUrl}
                 alt="Preview"
-                className="w-auto h-40"
+                className="w-auto h-40 rounded-lg"
               />
               <button
                 type="button"

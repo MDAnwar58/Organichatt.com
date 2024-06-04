@@ -6,16 +6,19 @@ import ImageInputFile from "../../../components/ImageInputFile";
 import { useSelector } from "react-redux";
 import useCategoryCreateContext from "../context/CategoryCreateContext";
 
-export default function CategoryForm({
-  setOpenCreateModal,
-  ImageUrl,
-  removeFile,
-}: {
-  setOpenCreateModal?: any;
-  ImageUrl?: any;
+interface Props {
+  openGalleryModalHandler?: any;
+  galleryImage?: any;
   removeFile?: any;
-}) {
-  const { name, image_url, form, addGallery } = useCategoryCreateContext();
+}
+
+export default function CategoryForm({
+  openGalleryModalHandler,
+  galleryImage,
+  removeFile,
+}: Props) {
+  const { name, image_url, icon_image_url, banner_url, form, addGallery } =
+    useCategoryCreateContext();
 
   const errors = useSelector((state) => state.errors);
   return (
@@ -37,10 +40,10 @@ export default function CategoryForm({
             title=" and choose file"
             format="PNG, JPG or GIF"
             maxSize="20MB"
-            imageUrl={ImageUrl}
-            imgClassName="h-40"
-            onClick={() => setOpenCreateModal(true)}
-            inputValue={ImageUrl}
+            galleryImage={galleryImage}
+            imgClassName="h-40 rounded-lg"
+            onClick={() => openGalleryModalHandler("image")}
+            inputValue={galleryImage.url}
             removeFile={removeFile}
             inputRef={image_url}
           />

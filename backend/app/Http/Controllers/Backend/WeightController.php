@@ -31,6 +31,7 @@ class WeightController extends Controller
     {
         $weight = new Weight();
         $weight->number = $request->number;
+        $weight->weight = $request->weight;
         $weight->save();
 
         return Response::Out("success", "Weight Created!", "", 200);
@@ -45,6 +46,7 @@ class WeightController extends Controller
     {
         $weight = Weight::find($request->id);
         $weight->number = $request->number;
+        $weight->weight = $request->weight;
         $weight->update();
 
         return Response::Out("success", "Weight Updated!", "", 200);

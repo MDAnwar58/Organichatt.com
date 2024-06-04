@@ -1,16 +1,19 @@
 import React from "react";
 import Form from "../../../components/Form";
 import Input from "../../../components/Input";
+import Select from "../../../components/Select";
 
 export default function EnForm({
   weight,
   number,
+  Weight,
   form,
   updateHandle,
   errors,
 }: {
   weight?: any;
   number?: any;
+  Weight?: any;
   form?: any;
   updateHandle?: any;
   errors?: any;
@@ -26,6 +29,19 @@ export default function EnForm({
           inputRef={number}
           error={errors.number}
         />
+      </div>
+      <div className="mb-5">
+        <Select
+          inputRef={Weight}
+          className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option value="gm" selected={weight.weight === "gm"}>
+            gm
+          </option>
+          <option value="kg" selected={weight.weight === "kg"}>
+            kg
+          </option>
+        </Select>
       </div>
 
       <div className=" text-end">

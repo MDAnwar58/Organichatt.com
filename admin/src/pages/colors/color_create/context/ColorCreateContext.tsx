@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addData } from "../apiCalling/action";
+import { addData } from "../../apiCalling/action";
 import { useNavigate } from "react-router-dom";
+import namer from "color-namer";
 
 export default function useColorCreateContext() {
   const name = useRef();
-  const color_code = useRef();
+  const [color, setColor] = useState("");
   const form = useRef();
 
   const dispatch = useDispatch();
@@ -14,13 +15,14 @@ export default function useColorCreateContext() {
   const addHandle = () => {
     const payload = {
       name: name.current.value,
-      color_code: color_code.current.value,
+      color_code: color,
     };
     dispatch(addData(payload, navigate));
   };
   return {
     name,
-    color_code,
+    color,
+    setColor,
     form,
     addHandle,
   };

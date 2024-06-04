@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('weights', function (Blueprint $table) {
             $table->id();
             $table->decimal('number', 10, 2);
+            $table->enum('weight', ['kg', 'gm']);
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ class SubCategory extends Model
         'name',
         'slug',
         'image_url',
+        'banner_url',
         'category_id',
         'status'
     ];

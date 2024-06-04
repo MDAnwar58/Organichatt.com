@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function FormHeader({
   title,
@@ -11,10 +11,13 @@ export default function FormHeader({
   darkColor?: any;
 }) {
   const { pathname } = useLocation();
+  const { id } = useParams();
   return (
     <div
       className={` bg-blue-300 ${
-        pathname === "/product-create" ? "rounded-md" : "rounded-t-md"
+        pathname === "/product-create" || pathname === `/product-edit/${id}`
+          ? "rounded-md"
+          : "rounded-t-md"
       }`}
     >
       <h1

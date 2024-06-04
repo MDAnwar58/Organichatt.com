@@ -48,27 +48,89 @@ export default function ProductTableTBody({
               {product.name}
             </td>
             <td className="px-6 py-4">{product.slug}</td>
-            <td className="px-6 py-4">
-              <img
-                src={product.image_url}
-                className="h-16 w-16 rounded-2xl"
-                alt={product.name}
-              />
+            <td
+              className={`px-6 py-4 ${product.discount_price && "underline"}`}
+            >
+              {product.price}tk
             </td>
             <td className="px-6 py-4">
-              {product.status === "active" ? (
+              {product.discount_price ? product.discount_price + "tk" : "---"}
+            </td>
+            <td className="px-6 py-4">
+              {product.collection ? product.collection.name : "---"}
+            </td>
+            <td className="px-6 py-4">
+              {product.brand ? product.brand.name : "---"}
+            </td>
+            <td className="px-6 py-4">
+              {product.category ? product.category.name : "---"}
+            </td>
+            <td className="px-6 py-4">
+              {product.sub_category ? product.sub_category.name : "---"}
+            </td>
+            <td className="px-6 py-4">
+              {product.product_colors.length > 0
+                ? product.product_colors.map((color, index) => (
+                    <div
+                      key={color.id}
+                      className={` rounded-md ${
+                        color.color.name === "white"
+                          ? "text-gray-950"
+                          : "text-white"
+                      } `}
+                      style={{ backgroundColor: color.color.color_code }}
+                    >
+                      {color.color.name}
+                    </div>
+                  ))
+                : "---"}
+            </td>
+            <td className="px-6 py-4">
+              {product.product_sizes.length > 0
+                ? product.product_sizes.map((product_size, index) => (
+                    <div key={product_size.id}>{product_size.size.name}</div>
+                  ))
+                : "---"}
+            </td>
+            <td className="px-6 py-4">
+              {product.product_size_numbers.length > 0
+                ? product.product_size_numbers.map(
+                    (product_size_number, index) => (
+                      <div key={product_size_number.id}>
+                        {product_size_number.size_number.name}
+                      </div>
+                    )
+                  )
+                : "---"}
+            </td>
+            <td className="px-6 py-4">
+              {product.product_weights.length > 0
+                ? product.product_weights.map((product_weight, index) => (
+                    <div key={product_weight.id} className="flex">
+                      {product_weight.weight.number}
+                      {product_weight.weight.weight}
+                      <span> {index + 1 >= 1 && " ,"}</span>
+                    </div>
+                  ))
+                : "---"}
+            </td>
+            <td className=" py-4">
+              <img src={product.image_url} className="" alt="" />
+            </td>
+            <td className="px-6 py-4">
+              {product.status === "publish" ? (
                 <small
                   onClick={() => statusHandle(product.id)}
                   className=" bg-green-300 text-white rounded-xl text-sm font-semibold px-3 pb-[.15rem] cursor-pointer"
                 >
-                  Active
+                  Publish
                 </small>
               ) : (
                 <small
                   onClick={() => statusHandle(product.id)}
                   className=" bg-red-300 text-white rounded-xl text-sm font-semibold px-3 pb-[.15rem] cursor-pointer"
                 >
-                  InActive
+                  Unpublish
                 </small>
               )}
             </td>
@@ -90,9 +152,9 @@ export default function ProductTableTBody({
           </tr>
         ))
       ) : loading === true ? (
-        <Loading colSpan={6} height={20} />
+        <Loading colSpan={14} height={20} />
       ) : (
-        <DataNotFound colSpan={6} />
+        <DataNotFound colSpan={14} />
       )}
     </tbody>
   );

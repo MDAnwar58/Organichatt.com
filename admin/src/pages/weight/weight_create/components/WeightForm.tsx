@@ -2,11 +2,12 @@ import React from "react";
 import FormHeader from "../../../components/FormHeader";
 import Form from "../../../components/Form";
 import Input from "../../../components/Input";
+import Select from "../../../components/Select";
 import { useSelector } from "react-redux";
 import useWeightCreateContext from "../context/WeightCreateContext";
 
 export default function WeightForm() {
-  const { number, form, addHandle } = useWeightCreateContext();
+  const { number, weight, form, addHandle } = useWeightCreateContext();
 
   const errors = useSelector((state) => state.errors);
 
@@ -22,6 +23,15 @@ export default function WeightForm() {
             placeholder="Weights"
             error={errors.number}
           />
+        </div>
+        <div className="mb-5">
+          <Select
+            inputRef={weight}
+            className="px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option value="gm">gm</option>
+            <option value="kg">kg</option>
+          </Select>
         </div>
 
         <div className=" text-end">

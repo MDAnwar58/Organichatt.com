@@ -14,6 +14,8 @@ class Category extends Model
         'name',
         'slug',
         'image_url',
+        'icon_image_url',
+        'banner_url',
         'brand_id',
         'status'
     ];
@@ -30,7 +32,7 @@ class Category extends Model
     }
     public static function generateSlugForUpdate($categoryName, $categorySlug, $requestName): mixed
     {
-        if ($categoryName != $requestName) {
+        if ($requestName !== $categoryName) {
             $slug = Category::generateSlug($requestName);
         } else {
             $slug = $categorySlug;

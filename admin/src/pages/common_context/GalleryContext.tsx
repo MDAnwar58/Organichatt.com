@@ -15,7 +15,7 @@ export default function useGalleryContext() {
   const [galleryCategoryId, setGalleryCategoryId] = useState("");
   const [search, setSearch] = useState("");
 
-  const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [openGalleryModal, setOpenGalleryModal] = useState(false);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
 
   const image_name = useRef();
@@ -31,7 +31,10 @@ export default function useGalleryContext() {
   const [imageError, setImageError] = useState(false);
 
   const [galleryId, setGalleryId] = useState(null);
-  const [ImageUrl, setImageUrl] = useState("");
+  const [galleryImage, setGalleryImage] = useState({
+    imageType: "",
+    url: "",
+  });
 
   const getGalleryCategories = () => {
     dispatch(getGalleryCategoryDatas());
@@ -122,21 +125,35 @@ export default function useGalleryContext() {
     );
   };
 
+  const openGalleryModalHandler = (imageType) => {
+    setOpenGalleryModal(true);
+    setGalleryImage({
+      imageType: imageType,
+      url: "",
+    });
+  };
+
   const selectGalleryImage = (id, url) => {
     setGalleryId(id);
-    setImageUrl(url);
+    setGalleryImage({
+      imageType: galleryImage.imageType,
+      url: url,
+    });
   };
 
   const removeFile = () => {
     setGalleryId(null);
-    setImageUrl("");
+    setGalleryImage({
+      imageType: "",
+      url: "",
+    });
   };
 
   return {
     getGalleryCategories,
     getGalleries,
-    openCreateModal,
-    setOpenCreateModal,
+    openGalleryModal,
+    setOpenGalleryModal,
     page,
     setPage,
     limit,
@@ -162,9 +179,10 @@ export default function useGalleryContext() {
     setImageError,
     galleryId,
     setGalleryId,
-    ImageUrl,
-    setImageUrl,
+    galleryImage,
+    setGalleryImage,
     selectGalleryImage,
+    openGalleryModalHandler,
     removeFile,
   };
 }

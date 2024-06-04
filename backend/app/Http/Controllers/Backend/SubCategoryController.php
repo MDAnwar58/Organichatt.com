@@ -99,6 +99,19 @@ class SubCategoryController extends Controller
 
         return Response::Out("success", "Sub Category Added!", "", 200);
     }
+
+    public function bannerStoreOrUpdate(Request $request, $id)
+    {
+        $sub_category = SubCategory::find($id);
+        $sub_category->banner_url = $request->banner_url;
+        $sub_category->update();
+
+        if (!is_null($sub_category->banner_url)) {
+            return Response::Out("success", "Sub Category Banner Stored!", "", 200);
+        } else {
+            return Response::Out("success", "Sub Category Banner Remove!", "", 200);
+        }
+    }
     public function status($id): JsonResponse
     {
         $subCategory = SubCategory::find($id);

@@ -24,11 +24,12 @@ class Product extends Model
         'discount_price',
         'perchese_quantity',
         'available_quantity',
-        'color_id',
-        'size_id',
-        'size_num_id',
-        'weight_id',
-        'remark',
+        'collection_id',
+        // 'color_id',
+        // 'size_id',
+        // 'size_num_id',
+        // 'weight_id',
+        // 'remark',
         'refundable',
         'status',
         'description',
@@ -59,5 +60,37 @@ class Product extends Model
             $slug = $productSlug;
         }
         return $slug;
+    }
+    public function collection()
+    {
+        return $this->belongsTo(Collection::class, 'collection_id');
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+    public function sub_category()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
+    }
+    public function product_colors()
+    {
+        return $this->hasMany(ProductColor::class, 'product_id');
+    }
+    public function product_sizes()
+    {
+        return $this->hasMany(ProductSize::class, "product_id");
+    }
+    public function product_size_numbers()
+    {
+        return $this->hasMany(ProductSizeNumber::class, "product_id");
+    }
+    public function product_weights()
+    {
+        return $this->hasMany(ProductWeight::class, "product_id");
     }
 }

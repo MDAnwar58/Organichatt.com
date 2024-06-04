@@ -17,8 +17,8 @@ export default function useSubCategoryEditContext() {
     dispatch(getCategoryDatas());
   };
 
-  const getSubCategory = (id, setImageUrl) => {
-    dispatch(getData(id, setImageUrl, setDisabled));
+  const getSubCategory = (id, setGalleryImage) => {
+    dispatch(getData(id, setGalleryImage, setDisabled));
   };
   const updateSubCategory = (id) => {
     const payload = {

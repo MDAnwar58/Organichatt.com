@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\SignUpController;
 use App\Http\Controllers\Auth\TwoFactorVerifyController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\CollectionController;
 use App\Http\Controllers\Backend\ColorController;
 use App\Http\Controllers\Backend\GalleryCategoryController;
 use App\Http\Controllers\Backend\GalleryController;
@@ -68,6 +69,14 @@ Route::post('/gallery-multiple-permanently-delete', [GalleryController::class, '
 Route::get('/gallery-image-download/{id}', [GalleryController::class, 'imageDownload']);
 // Route::get('/gallery-multiple-permanently-delete-in-restore', [GalleryController::class, 'multipleForseDestroyInRestore']);
 
+// * size number routes as like sizes routes are
+Route::get('/collections-get', [CollectionController::class, 'get']);
+Route::get('/collection-status/{id}', [CollectionController::class, 'status']);
+Route::post('/collection-store', [CollectionController::class, 'store']);
+Route::get('/collection-edit/{id}', [CollectionController::class, 'edit']);
+Route::post('/collection-update/{id}', [CollectionController::class, 'update']);
+Route::get('/collection-delete/{id}', [CollectionController::class, 'destroy']);
+
 // * brands routes
 Route::get('/brands-get', [BrandController::class, 'get']);
 Route::post('/brand-store', [BrandController::class, 'store']);
@@ -79,6 +88,8 @@ Route::get('/brand-delete/{id}', [BrandController::class, 'destroy']);
 // * category routes
 Route::get('/categories-get', [CategoryController::class, 'get']);
 Route::post('/category-store', [CategoryController::class, 'store']);
+Route::post('/category-icon-store-or-update/{id}', [CategoryController::class, 'iconStoreOrUpdate']);
+Route::post('/category-banner-store-or-update/{id}', [CategoryController::class, 'bannerStoreOrUpdate']);
 Route::get('/category-status/{id}', [CategoryController::class, 'status']);
 Route::get('/category-edit/{id}', [CategoryController::class, 'edit']);
 Route::post('/category-update/{id}', [CategoryController::class, 'update']);
@@ -87,6 +98,7 @@ Route::get('/category-delete/{id}', [CategoryController::class, 'destroy']);
 // * sub category routes as like category routes
 Route::get('/sub-categories-get', [SubCategoryController::class, 'get']);
 Route::post('/sub-category-store', [SubCategoryController::class, 'store']);
+Route::post('/sub-category-banner-store-or-update/{id}', [SubCategoryController::class, 'bannerStoreOrUpdate']);
 Route::get('/sub-category-status/{id}', [SubCategoryController::class, 'status']);
 Route::get('/sub-category-edit/{id}', [SubCategoryController::class, 'edit']);
 Route::post('/sub-category-update/{id}', [SubCategoryController::class, 'update']);

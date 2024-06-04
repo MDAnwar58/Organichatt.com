@@ -8,33 +8,24 @@ export default function useBrandEditContext() {
   const image_url = useRef();
   const form = useRef();
 
-  const [nameError, setNameError] = useState(false);
-  const [imageUrlError, setImageUrlError] = useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const getBrand = (id, setImageUrl) => {
-    dispatch(getData(id, setImageUrl));
+  const getBrand = (id, setGalleryImage) => {
+    dispatch(getData(id, setGalleryImage));
   };
   const updateBrand = (id) => {
     const payload = {
       name: name.current.value,
       image_url: image_url.current.value,
     };
-    dispatch(
-      updateData(id, payload, form, setNameError, setImageUrlError, navigate)
-    );
+    dispatch(updateData(id, payload, form, navigate));
   };
   return {
     getBrand,
     name,
     image_url,
     form,
-    nameError,
-    setNameError,
-    imageUrlError,
-    setImageUrlError,
     updateBrand,
   };
 }

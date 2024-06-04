@@ -196,7 +196,9 @@ export default function GalleryTable({
                 : "7xl:col-span-6 2xlMiddle3xl:col-span-5 2lg:col-span-4 md:col-span-3 2xs:col-span-2 col-span-1"
             } flex justify-center backdrop-blur-sm bg-gray-100/30 rounded-lg w-full shadow-sm border`}
           >
-            <h2>Gallery not found</h2>
+            <h2 className=" text-2xl text-gray-700 font-semibold">
+              Gallery not found
+            </h2>
           </div>
         )}
       </GalleryGrid>
