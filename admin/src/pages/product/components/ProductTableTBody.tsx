@@ -3,25 +3,25 @@ import { Link } from "react-router-dom";
 import DataNotFound from "../../components/DataNotFound";
 import Loading from "../../components/Loading";
 
-export default function ProductTableTBody({
-  products,
-  length,
-  loading,
-  statusHandle,
-  deleteHandle,
-  page,
-  limit,
-  sortBy,
-}: {
+interface Props {
   products?: any;
-  length?: any;
   loading?: boolean;
   statusHandle?: any;
   deleteHandle?: any;
   page?: any;
   limit?: any;
   sortBy?: any;
-}) {
+}
+
+export default function ProductTableTBody({
+  products,
+  loading,
+  statusHandle,
+  deleteHandle,
+  page,
+  limit,
+  sortBy,
+}: Props) {
   return (
     <tbody>
       {products.length > 0 ? (
@@ -30,7 +30,7 @@ export default function ProductTableTBody({
             key={
               sortBy === "desc"
                 ? index + 1 + (page - 1) * limit
-                : length - index - (page - 1) * limit
+                : products.length - index - (page - 1) * limit
             }
             // {length - index - (page - 1) * limit}
             className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center"
@@ -38,8 +38,7 @@ export default function ProductTableTBody({
             <td className="px-6 py-4">
               {sortBy === "desc"
                 ? index + 1 + (page - 1) * limit
-                : length - index - (page - 1) * limit}
-              {/* {length - index - (page - 1) * limit} */}
+                : products.length - index - (page - 1) * limit}
             </td>
             <td
               scope="row"

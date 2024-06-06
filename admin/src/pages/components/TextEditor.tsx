@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import JoditEditor from "jodit-pro-react";
 
 interface Props {
@@ -8,44 +8,28 @@ interface Props {
 }
 
 export default function TextEditor({ config, textEditorRef, value }: Props) {
-  useEffect(() => {
-    console.clear();
-    // let editor;
-    // try {
-    //   editor = textEditorRef.current?.editor;
-    //   const handleBeforeLoad = () => {
-    //     // Custom logic before editor loads, if needed
-    //     console.log("Editor is about to load");
-    //   };
-    //   const handleDestroy = () => {
-    //     // Custom cleanup logic before editor is destroyed, if needed
-    //     console.log("Editor is being destroyed");
-    //   };
-    //   if (editor) {
-    //     editor.events.on("beforeLoad", handleBeforeLoad);
-    //     editor.events.on("destroy", handleDestroy);
-    //   }
-    // } catch (error) {
-    //   console.error("Error initializing JoditEditor:", error);
-    // }
-    // return () => {
-    //   try {
-    //     if (editor) {
-    //       editor.events.off("beforeLoad", handleBeforeLoad);
-    //       editor.events.off("destroy", handleDestroy);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error cleaning up JoditEditor:", error);
-    //   }
-    // };
-  }, []);
+  // useEffect(() => {
+  //   const editorInstance = textEditorRef.current?.editor;
 
-  return (
-    <JoditEditor
-      ref={textEditorRef}
-      config={config}
-      tabIndex={1} // tabIndex of textarea
-      value={value}
-    />
-  );
+  //   const handleBeforeLoad = () => {
+  //     console.log("Editor is about to load");
+  //   };
+
+  //   const handleDestroy = () => {
+  //     console.log("Editor is being destroyed");
+  //   };
+
+  //   if (editorInstance) {
+  //     editorInstance.events.on("beforeLoad", handleBeforeLoad);
+  //     editorInstance.events.on("destroy", handleDestroy);
+  //   }
+
+  //   return () => {
+  //     if (editorInstance) {
+  //       editorInstance.events.off("beforeLoad", handleBeforeLoad);
+  //       editorInstance.events.off("destroy", handleDestroy);
+  //     }
+  //   };
+  // }, [textEditorRef]);
+  return <JoditEditor ref={textEditorRef} config={config} value={value} />;
 }

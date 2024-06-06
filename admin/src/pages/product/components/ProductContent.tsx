@@ -13,7 +13,6 @@ export default function ProductContent() {
     page,
     limit,
     totalPage,
-    length,
     onPageHabdle,
     pageItemLimitHandler,
     selectItemId,
@@ -36,29 +35,19 @@ export default function ProductContent() {
   const filterItems = [
     {
       id: 1,
-      name: "active",
+      name: "publish",
     },
     {
       id: 2,
-      name: "inactive",
+      name: "unpublish",
     },
   ];
 
-  const checkbox = <input type="checkbox" />;
+  const checkbox = (
+    <input type="checkbox" className="border border-gray-950 rounded-md" />
+  );
   const theadColumnName = [
-    // ${
-    //     sortByDir === "" || (sortByDir === "id" && sortBy === "desc")
-    //       ? "text-gray-950"
-    //       : "text-gray-300"
-    //   }
-    <Column
-      name="#"
-      icon={true}
-      sortBy={sortBy}
-      iconClassName={`ms-1`}
-      onClick={() => sortByHandle(sortBy, "id")}
-      sortByDir={sortByDir === "id" && "id"}
-    />,
+    <Column name={checkbox} />,
     <Column
       name="Product Name"
       icon={true}
@@ -68,7 +57,14 @@ export default function ProductContent() {
       sortByDir={sortByDir === "name" && "name"}
     />,
     <Column name="Slug" />,
-    <Column name="Price" />,
+    <Column
+      name="Price"
+      icon={true}
+      sortBy={sortBy}
+      iconClassName="ms-1"
+      onClick={() => sortByHandle(sortBy, "price")}
+      sortByDir={sortByDir === "price" && "price"}
+    />,
     <Column name="Discount Price" />,
     <Column name="Collection" />,
     <Column name="Brand" />,
@@ -86,7 +82,6 @@ export default function ProductContent() {
   const tbody = (
     <ProductTableTBody
       products={products}
-      length={length}
       loading={loading}
       statusHandle={statusHandle}
       deleteHandle={deleteHandle}

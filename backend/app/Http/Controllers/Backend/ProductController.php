@@ -19,6 +19,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use PhpParser\Node\Expr\Cast\String_;
 
 class ProductController extends Controller
 {
@@ -27,11 +28,55 @@ class ProductController extends Controller
         return view('admin.product.index');
     }
     // make some functions as like get, store, status, edit, update, delete and multipleDestroy functions
-    public function get(): JsonResponse
+    public function get(Request $request)
     {
-        $products = Product::latest()
-            ->with('collection', 'brand', 'category', 'sub_category', 'product_colors', 'product_colors.color', 'product_sizes', 'product_sizes.size', 'product_size_numbers', 'product_size_numbers.size_number', 'product_weights', 'product_weights.weight')
-            ->get();
+        $sort_by = $request->sort_by;
+        $sort_by_dir = $request->sort_by_dir;
+        $status = $request->status;
+        $search = $request->search;
+
+        if (isset($search) && isset($status)) {
+            if ($status === "1") {
+                $products = Product::orderBy('created_at', $sort_by)
+                    ->where('name', 'like', '%' . $search . '%')
+                    ->where('status', "publish")
+                    ->with('collection', 'brand', 'category', 'sub_category', 'product_colors', 'product_colors.color', 'product_sizes', 'product_sizes.size', 'product_size_numbers', 'product_size_numbers.size_number', 'product_weights', 'product_weights.weight')
+                    ->get();
+            } else {
+                $products = Product::orderBy('created_at', $sort_by)
+                    ->where('name', 'like', '%' . $search . '%')
+                    ->where('status', "unpublish")
+                    ->with('collection', 'brand', 'category', 'sub_category', 'product_colors', 'product_colors.color', 'product_sizes', 'product_sizes.size', 'product_size_numbers', 'product_size_numbers.size_number', 'product_weights', 'product_weights.weight')
+                    ->get();
+            }
+        } elseif (isset($search)) {
+            $products = Product::orderBy('created_at', $sort_by)
+                ->where('name', 'like', '%' . $search . '%')
+                ->with('collection', 'brand', 'category', 'sub_category', 'product_colors', 'product_colors.color', 'product_sizes', 'product_sizes.size', 'product_size_numbers', 'product_size_numbers.size_number', 'product_weights', 'product_weights.weight')
+                ->get();
+        } elseif (isset($status)) {
+            if ($status === "1") {
+                $products = Product::orderBy('created_at', $sort_by)
+                    ->where('status', "publish")
+                    ->with('collection', 'brand', 'category', 'sub_category', 'product_colors', 'product_colors.color', 'product_sizes', 'product_sizes.size', 'product_size_numbers', 'product_size_numbers.size_number', 'product_weights', 'product_weights.weight')
+                    ->get();
+            } else {
+                $products = Product::orderBy('created_at', $sort_by)
+                    ->where('status', "unpublish")
+                    ->with('collection', 'brand', 'category', 'sub_category', 'product_colors', 'product_colors.color', 'product_sizes', 'product_sizes.size', 'product_size_numbers', 'product_size_numbers.size_number', 'product_weights', 'product_weights.weight')
+                    ->get();
+            }
+        } elseif (isset($sort_by) && isset($sort_by_dir)) {
+            if ($sort_by_dir === "name") {
+                $products = Product::orderBy($sort_by_dir, $sort_by)
+                    ->with('collection', 'brand', 'category', 'sub_category', 'product_colors', 'product_colors.color', 'product_sizes', 'product_sizes.size', 'product_size_numbers', 'product_size_numbers.size_number', 'product_weights', 'product_weights.weight')
+                    ->get();
+            }
+        } else {
+            $products = Product::orderBy('created_at', $sort_by)
+                ->with('collection', 'brand', 'category', 'sub_category', 'product_colors', 'product_colors.color', 'product_sizes', 'product_sizes.size', 'product_size_numbers', 'product_size_numbers.size_number', 'product_weights', 'product_weights.weight')
+                ->get();
+        }
 
         $data = [
             'products' => $products,

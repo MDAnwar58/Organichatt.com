@@ -304,7 +304,7 @@ export default function EnForm({
                 } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                 selectedValue={product.brand_id}
               >
-                <option value="" className="text-gray-600 text-md font-medium">
+                <option className="text-gray-600 text-md font-medium">
                   Choose brand
                 </option>
                 {brands.length > 0 ? (
@@ -334,7 +334,7 @@ export default function EnForm({
                 selectedValue={product.category_id}
                 required
               >
-                <option value="" className="text-gray-600 text-md font-medium">
+                <option className="text-gray-600 text-md font-medium">
                   Choose category
                 </option>
                 {categories.length > 0 ? (
@@ -364,7 +364,7 @@ export default function EnForm({
                 } border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                 selectedValue={product.sub_category_id}
               >
-                <option value="" className="text-gray-600 text-md font-medium">
+                <option className="text-gray-600 text-md font-medium">
                   Choose sub category
                 </option>
                 {sub_categories.length > 0 ? (
@@ -503,7 +503,7 @@ export default function EnForm({
           className="text-md font-semibold text-white bg-green-300 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 uppercase"
           value="publish"
         >
-          Publish & Save
+          Publish & Update
         </button>
         <button
           type="button"
@@ -511,7 +511,7 @@ export default function EnForm({
           className="ms-3 text-md font-semibold text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 uppercase"
           value="unpublish"
         >
-          Unpublish & Save
+          Unpublish & Update
         </button>
       </div>
     </form>

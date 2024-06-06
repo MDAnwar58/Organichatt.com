@@ -103,7 +103,6 @@ const getDatas =
     selectItemId,
     search,
     setPage,
-    setLength,
     sortByDir,
     sortBy
   ) =>
@@ -111,9 +110,8 @@ const getDatas =
     const response = await axiosClient.get(
       `/products-get?sort_by_dir=${sortByDir}&sort_by=${sortBy}&status=${selectItemId}&search=${search}`
     );
-    // console.log(response.data.data);
+    console.log(response.data);
     let totalItemsLength = response.data.data.products.length;
-    setLength(totalItemsLength);
     let totalPagesFromResponse = Math.ceil(totalItemsLength / limit);
     setTotalPage(totalPagesFromResponse);
 
@@ -159,7 +157,6 @@ const statusChange =
     selectItemId,
     search,
     setPage,
-    setLength,
     sortByDir,
     sortBy
   ) =>
@@ -176,7 +173,6 @@ const statusChange =
           selectItemId,
           search,
           setPage,
-          setLength,
           sortByDir,
           sortBy
         )
@@ -194,7 +190,6 @@ const dataDelete =
     selectItemId,
     search,
     setPage,
-    setLength,
     sortByDir,
     sortBy
   ) =>
@@ -211,7 +206,6 @@ const dataDelete =
           selectItemId,
           search,
           setPage,
-          setLength,
           sortByDir,
           sortBy
         )
@@ -228,7 +222,6 @@ const dataSorting =
     selectItemId,
     search,
     setPage,
-    setLength,
     dir,
     sort
   ) =>
@@ -242,7 +235,6 @@ const dataSorting =
         selectItemId,
         search,
         setPage,
-        setLength,
         dir,
         sort
       )
@@ -337,7 +329,6 @@ const getData =
 const updateData =
   (id: string, payload: any, form: any, navigate: any) => async (dispatch) => {
     const response = await axiosClient.post(`/product-update/${id}`, payload);
-    console.log(response.data);
     try {
       if (response.data.status === "success") {
         successMsg(response.data.msg);

@@ -27,12 +27,16 @@ export default function Column({
         sorting = <DownArrowIcon className={iconClassName} />;
       }
     } else {
-      // if (sortByDir === "") {
-      //   sorting = <UpArrowIcon className={iconClassName} />;
-      // }
       sorting = <UpArrowIcon className={iconClassName} />;
     }
     if (sortByDir === "name") {
+      if (sortBy === "desc") {
+        sorting = <UpArrowIcon className={iconClassName} />;
+      } else {
+        sorting = <DownArrowIcon className={iconClassName} />;
+      }
+    }
+    if (sortByDir === "price") {
       if (sortBy === "desc") {
         sorting = <UpArrowIcon className={iconClassName} />;
       } else {
@@ -43,18 +47,12 @@ export default function Column({
   return (
     <Fragment>
       <div
-        className={`flex items-center justify-center w-full py-3 cursor-pointer ${
+        className={`flex items-center justify-center w-full py-3 px-3 cursor-pointer ${
           icon === true && "hover:bg-gray-200 transition-all"
         }`}
         onClick={onClick}
       >
         <span>{name}</span>
-        {/* {icon === true
-          ? sortByDir === "" ||
-            (sortByDir === "id" && sortBy === "desc" && (
-              <UpArrowIcon className={iconClassName} />
-            ))
-          : ""} */}
         {sorting}
       </div>
     </Fragment>

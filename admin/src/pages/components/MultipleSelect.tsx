@@ -67,17 +67,13 @@ export default function MultipleSelect({
               onChange={onChange}
               className="flex items-center justify-between"
             >
-              <span>
-                {item.number ? item.number : item.name}
-                {item.weight && item.weight}
-              </span>
-              <span>
-                {ids.includes(String(item.id)) ? (
-                  <SquareCheckIcon className="text-xl" />
-                ) : (
-                  <SquarePlusIcon className="text-xl" />
-                )}
-              </span>
+              {item.number ? item.number : item.name}
+              {item.weight && item.weight}
+              {ids.includes(String(item.id)) ? (
+                <SquareCheckIcon className="text-xl" />
+              ) : (
+                <SquarePlusIcon className="text-xl" />
+              )}
             </option>
           ))
         ) : (

@@ -81,6 +81,7 @@ export default function ImageInfoDrawer({
                 labelHtmlFor="gallery_category_id"
                 selectedValue={gallery.gallery_category_id}
                 inputRef={gallery_category_id}
+                className="w-full rounded-lg mt-1"
               >
                 {galleryCategories.length > 0 &&
                   galleryCategories.map((galleryCategory, index) => (

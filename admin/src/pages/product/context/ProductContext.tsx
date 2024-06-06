@@ -12,7 +12,6 @@ export default function useProductContext() {
   const [limit, setLimit] = useState(5);
   const [totalPage, setTotalPage] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [length, setLength] = useState(0);
 
   const [selectItemId, setSelectItemId] = useState("");
   const [search, setSearch] = useState("");
@@ -31,7 +30,6 @@ export default function useProductContext() {
         selectItemId,
         search,
         setPage,
-        setLength,
         sortByDir,
         sortBy
       )
@@ -49,7 +47,6 @@ export default function useProductContext() {
         selectItemId,
         search,
         setPage,
-        setLength,
         sortByDir,
         sortBy
       )
@@ -67,7 +64,6 @@ export default function useProductContext() {
         selectItemId,
         search,
         setPage,
-        setLength,
         sortByDir,
         sortBy
       )
@@ -85,7 +81,6 @@ export default function useProductContext() {
         id,
         search,
         setPage,
-        setLength,
         sortByDir,
         sortBy
       )
@@ -103,7 +98,6 @@ export default function useProductContext() {
         selectItemId,
         e.target.value,
         setPage,
-        setLength,
         sortByDir,
         sortBy
       )
@@ -121,7 +115,6 @@ export default function useProductContext() {
         selectItemId,
         search,
         setPage,
-        setLength,
         sortByDir,
         sortBy
       )
@@ -139,14 +132,13 @@ export default function useProductContext() {
         selectItemId,
         search,
         setPage,
-        setLength,
         sortByDir,
         sortBy
       )
     );
   };
 
-  const sortByHandle = (sort, dir) => {
+  const sortByHandle = (sort, dir): void => {
     setSortByDir(dir);
     if (sort === "desc") {
       setSortBy("asc");
@@ -159,7 +151,6 @@ export default function useProductContext() {
           selectItemId,
           search,
           setPage,
-          setLength,
           dir,
           "asc"
         )
@@ -175,7 +166,6 @@ export default function useProductContext() {
           selectItemId,
           search,
           setPage,
-          setLength,
           dir,
           "desc"
         )
@@ -188,7 +178,6 @@ export default function useProductContext() {
     page,
     limit,
     totalPage,
-    length,
     onPageHabdle,
     pageItemLimitHandler,
     selectItemId,
