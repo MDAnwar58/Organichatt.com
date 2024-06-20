@@ -110,8 +110,14 @@ const getDatas =
     const response = await axiosClient.get(
       `/products-get?sort_by_dir=${sortByDir}&sort_by=${sortBy}&status=${selectItemId}&search=${search}`
     );
-    console.log(response.data);
+    // console.log(response.data.data.products);
     let totalItemsLength = response.data.data.products.length;
+    if (totalItemsLength > 0) {
+      dispatch({
+        type: GET_DATAS,
+        payload: response.data.data.products,
+      });
+    }
     let totalPagesFromResponse = Math.ceil(totalItemsLength / limit);
     setTotalPage(totalPagesFromResponse);
 
@@ -125,7 +131,7 @@ const getDatas =
       newPage = totalPagesFromResponse;
     }
 
-    dispatch(getItems(newPage, limit, response.data.data.products));
+    // dispatch(getItems(newPage, limit, response.data.data.products));
 
     setPage(newPage); // Set the current page after changing the limit
     setLoading(false);
@@ -135,17 +141,17 @@ const getDatas =
     });
   };
 
-const getItems = (page, limit, items) => (dispatch) => {
-  // console.log(items);
-  let array = [];
-  for (let i = (page - 1) * limit; i < page * limit && items[i]; i++) {
-    array.push(items[i]);
-  }
-  dispatch({
-    type: GET_DATAS,
-    payload: array,
-  });
-};
+// const getItems = (page, limit, items) => (dispatch) => {
+//   // console.log(items);
+//   let array = [];
+//   for (let i = (page - 1) * limit; i < page * limit && items[i]; i++) {
+//     array.push(items[i]);
+//   }
+//   dispatch({
+//     type: GET_DATAS,
+//     payload: array,
+//   });
+// };
 
 const statusChange =
   (

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Fragment } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NavBar from "./pages/components/NavBar";
 import SideBar from "./pages/components/SideBar";
 import useAuthCheck from "./auth/AuthCheck";

@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import UserBtnDropdown from "./UserBtnDropdown";
 import Logo from "./Logo";
 import MobileSidebarBtn from "./MobileSidebarBtn";
-import { DarkModeIcon } from "./Icons";
 import WebPageMode from "./WebPageMode";
 export default function NavBar({
   sideBarHandle,

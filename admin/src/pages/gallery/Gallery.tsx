@@ -4,7 +4,7 @@ import GalleryTableHeader from "./components/GalleryTableHeader";
 import { useOutletContext } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./apiCalling/store";
-import { getDatasWithGalleryCategory } from "./apiCalling/action";
+import { Helmet } from "react-helmet";
 import PageContent from "../components/PageContent";
 
 export default function Gallery() {
@@ -21,6 +21,10 @@ export default function Gallery() {
 
   return (
     <Provider store={store}>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Organ Admin - Galleries</title>
+      </Helmet>
       <PageContent>
         <GalleryTableHeader
           sideBar={sideBar}
